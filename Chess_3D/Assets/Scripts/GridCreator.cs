@@ -57,10 +57,12 @@ public class GridCreator : MonoBehaviour
 
             if(x_list.Contains(x) && z == 0)
             {
-                grid[x, z] = Instantiate(gridCellWhiteTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
-                grid[x, z].transform.parent = transform;
-                yield return new WaitForSeconds(0.05f); 
-
+                if(x == 0 & z == 0)
+                {
+                    grid[x, z] = Instantiate(gridCellWhiteTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
+                    grid[x, z].transform.parent = transform;
+                    yield return new WaitForSeconds(0.05f); 
+                }
                 x++;
                 grid[x, z] = Instantiate(gridCellBlackTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
                 grid[x, z].transform.parent = transform;
@@ -100,10 +102,6 @@ public class GridCreator : MonoBehaviour
 
             if(x == 0 && z_list.Contains(z))
             {
-                grid[x, z] = Instantiate(gridCellBlackTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
-                grid[x, z].transform.parent = transform;
-                yield return new WaitForSeconds(0.05f); 
-
                 z++;
                 grid[x, z] = Instantiate(gridCellWhiteTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
                 grid[x, z].transform.parent = transform;

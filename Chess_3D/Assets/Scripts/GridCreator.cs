@@ -5,8 +5,8 @@ using UnityEngine;
 public class GridCreator : MonoBehaviour
 {
 
-    private int x_width = 3;
-    private int z_width = 3;
+    private int x_width = 5;
+    private int z_width = 4;
     private float GridSpaceSize = 1f;
     
     [SerializeField]
@@ -58,6 +58,8 @@ public class GridCreator : MonoBehaviour
 
                 int new_x = x;
 
+                if(new_x > z_width - 1) new_x = z_width - 1;
+
                 for(int i = 0; i < new_x; i++)
                 {
                     x--;
@@ -82,6 +84,17 @@ public class GridCreator : MonoBehaviour
                     new_x = 0;
                 }
                 else if(new_z > x_width - 1)
+                {
+                    new_z = x_width - 1 - x;
+                    new_x = 0;
+                }
+                else if(new_z == z_width - 1)
+                {
+                    new_z = z_width - 1;
+                    new_x = 0;
+                }
+                
+                if(new_z + x > x_width - 1)
                 {
                     new_z = x_width - 1 - x;
                     new_x = 0;
@@ -117,10 +130,7 @@ public class GridCreator : MonoBehaviour
 
             if(x == x_width - 1 && z_list.Contains(z))
             {
-                if(x == x_width - 1 && z == z_width - 1)
-                {
-                    finished = true;
-                }
+                if(x == x_width - 1 && z == z_width - 1) finished = true;
                 else
                 {
                     z++;

@@ -5,8 +5,8 @@ using UnityEngine;
 public class GridCreator : MonoBehaviour
 {
 
-    private int x_width = 5;
-    private int z_width = 4;
+    private int x_width = 25;
+    private int z_width = 25;
     private float GridSpaceSize = 1f;
     
     [SerializeField]
@@ -28,7 +28,7 @@ public class GridCreator : MonoBehaviour
 
         if (gridCellWhiteTilePrefab == null || gridCellBlackTilePrefab == null)
         {
-            Debug.LogError("ERROR: Grid Cell Prefab not attached!");
+            Debug.LogError("ERROR: Grid Cell Prefab(s) not attached!");
             yield return null;
         }
 
@@ -65,7 +65,7 @@ public class GridCreator : MonoBehaviour
                     x--;
                     z++;
                     CreateTilePrefabOnGrid("Black", x, z);
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(0.1f/((float)new_x));
                 }
             }
 
@@ -105,7 +105,7 @@ public class GridCreator : MonoBehaviour
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(0.1f/((float)new_z - (float)new_x));
                 }
             }
 
@@ -124,7 +124,7 @@ public class GridCreator : MonoBehaviour
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(0.1f/((float)new_z));
                 }
             }
 
@@ -152,7 +152,7 @@ public class GridCreator : MonoBehaviour
                         x--;
                         z++;
                         CreateTilePrefabOnGrid("Black", x, z);
-                        yield return new WaitForSeconds(0.05f);
+                        yield return new WaitForSeconds(0.1f/((float)new_x - (float)new_z));
                     }
                 }
             }

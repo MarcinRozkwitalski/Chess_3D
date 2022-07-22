@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class GridCreator : MonoBehaviour
 {
-
-    private int x_width = 25;
-    private int z_width = 25;
-    private float GridSpaceSize = 1f;
+    public int _xWidth = 8;
+    public int _zWidth = 8;
+    public float _gridSpaceSize = 1f;
     
     [SerializeField]
     private GameObject gridCellWhiteTilePrefab;
@@ -15,149 +14,149 @@ public class GridCreator : MonoBehaviour
     [SerializeField]
     private GameObject gridCellBlackTilePrefab;
 
-    private GameObject[,] grid;
+    private GameObject[,] chessBoardGrid;
 
     void Start()
     {
         StartCoroutine(CreateGrid());
     }
 
-    private IEnumerator CreateGrid()
+    public IEnumerator CreateGrid()
     {
-        grid = new GameObject[x_width, z_width];
+        yield return new WaitForSeconds(2f);
+
+        chessBoardGrid = new GameObject[_xWidth, _zWidth];
 
         if (gridCellWhiteTilePrefab == null || gridCellBlackTilePrefab == null)
         {
             Debug.LogError("ERROR: Grid Cell Prefab(s) not attached!");
+            StopAllCoroutines();
             yield return null;
         }
 
-        bool finished = false;
-
         int x = 0, z = 0;
 
-        List<int> x_list = new List<int>();
-        List<int> z_list = new List<int>();
+        List<int> xList = new List<int>();
+        List<int> zList = new List<int>();
 
-        for (int i = 0; i < x_width; i++) x_list.Add(i);
+        for (int i = 0; i < _xWidth; i++) xList.Add(i);
+        for (int i = 0; i < _zWidth; i++) zList.Add(i);
 
-        for (int i = 0; i < z_width; i++) z_list.Add(i);
-
-        while(!finished)
+        while(true)
         {
-            if(x_list.Contains(x) && z == 0)
+            if(xList.Contains(x) && z == 0)
             {
                 if(x == 0 && z == 0)
                 {
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.05f); 
+                    yield return new WaitForSeconds(0.05f);
                 }
                 x++;
                 CreateTilePrefabOnGrid("Black", x, z);
                 yield return new WaitForSeconds(0.05f);
 
-                int new_x = x;
+                int tempX = x;
 
-                if(new_x > z_width - 1) new_x = z_width - 1;
+                if(tempX > _zWidth - 1) tempX = _zWidth - 1;
 
-                for(int i = 0; i < new_x; i++)
+                for(int i = 0; i < tempX; i++)
                 {
                     x--;
                     z++;
                     CreateTilePrefabOnGrid("Black", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)new_x));
+                    yield return new WaitForSeconds(0.1f/((float)tempX));
                 }
             }
 
-            if(x_list.Contains(x) && z == z_width - 1)
+            if(xList.Contains(x) && z == _zWidth - 1)
             {
                 x++;
                 CreateTilePrefabOnGrid("White", x, z);
                 yield return new WaitForSeconds(0.05f); 
 
-                int new_x = x;
-                int new_z = z;
+                int tempX = x;
+                int tempZ = z;
 
-                if(new_x == x_width - 1 && new_z == z_width - 1)
+                if(tempX == _xWidth - 1 && tempZ == _zWidth - 1)
                 {
-                    new_z = 0;
-                    new_x = 0;
+                    tempZ = 0;
+                    tempX = 0;
                 }
-                else if(new_z > x_width - 1)
+                else if(tempZ > _xWidth - 1)
                 {
-                    new_z = x_width - 1 - x;
-                    new_x = 0;
+                    tempZ = _xWidth - 1 - x;
+                    tempX = 0;
                 }
-                else if(new_z == z_width - 1)
+                else if(tempZ == _zWidth - 1)
                 {
-                    new_z = z_width - 1;
-                    new_x = 0;
+                    tempZ = _zWidth - 1;
+                    tempX = 0;
                 }
                 
-                if(new_z + x > x_width - 1)
+                if(tempZ + x > _xWidth - 1)
                 {
-                    new_z = x_width - 1 - x;
-                    new_x = 0;
+                    tempZ = _xWidth - 1 - x;
+                    tempX = 0;
                 }
 
-                for(int i = 0; i < new_z - new_x; i++)
+                for(int i = 0; i < tempZ - tempX; i++)
                 {
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)new_z - (float)new_x));
+                    yield return new WaitForSeconds(0.1f/((float)tempZ - (float)tempX));
                 }
             }
 
-            if(x == 0 && z_list.Contains(z))
+            if(x == 0 && zList.Contains(z))
             {
                 z++;
                 CreateTilePrefabOnGrid("White", x, z);
                 yield return new WaitForSeconds(0.05f);
 
-                int new_z = z;
+                int tempZ = z;
 
-                if(new_z > x_width - 1) new_z = x_width - 1;
+                if(tempZ > _xWidth - 1) tempZ = _xWidth - 1;
 
-                for(int i = 0; i < new_z; i++)
+                for(int i = 0; i < tempZ; i++)
                 {
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)new_z));
+                    yield return new WaitForSeconds(0.1f/((float)tempZ));
                 }
             }
 
-            if(x == x_width - 1 && z_list.Contains(z))
+            if(x == _xWidth - 1 && zList.Contains(z))
             {
-                if(x == x_width - 1 && z == z_width - 1) finished = true;
+                if(x == _xWidth - 1 && z == _zWidth - 1) break;
                 else
                 {
                     z++;
                     CreateTilePrefabOnGrid("Black", x, z);
                     yield return new WaitForSeconds(0.05f);
 
-                    int new_x = x;
-                    int new_z = z;
+                    int tempX = x;
+                    int tempZ = z;
 
-                    if(x_width != z_width) 
-                        if(new_x == x_width - 1)
+                    if(_xWidth != _zWidth) 
+                        if(tempX == _xWidth - 1)
                         {
-                            new_z = 0;
-                            if(new_x + z > z_width - 1) new_x = z_width - 1 - z;
+                            tempZ = 0;
+                            if(tempX + z > _zWidth - 1) tempX = _zWidth - 1 - z;
                         }
 
-                    for(int i = 0; i < new_x - new_z; i++)
+                    for(int i = 0; i < tempX - tempZ; i++)
                     {
                         x--;
                         z++;
                         CreateTilePrefabOnGrid("Black", x, z);
-                        yield return new WaitForSeconds(0.1f/((float)new_x - (float)new_z));
+                        yield return new WaitForSeconds(0.1f/((float)tempX - (float)tempZ));
                     }
                 }
             }
 
-            if(x == x_width - 1 && z == z_width - 1) finished = true;
+            if(x == _xWidth - 1 && z == _zWidth - 1) break;
         }
 
         // horizontal not line to line
@@ -191,14 +190,14 @@ public class GridCreator : MonoBehaviour
     {
         if(whichTile == "Black")
         {
-            grid[x, z] = Instantiate(gridCellBlackTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
-            grid[x, z].transform.parent = transform;
+            chessBoardGrid[x, z] = Instantiate(gridCellBlackTilePrefab, new Vector3(x * _gridSpaceSize, 0.01f, z * _gridSpaceSize), Quaternion.identity);
+            chessBoardGrid[x, z].transform.parent = transform;
         }
         else
         if(whichTile == "White")
         {
-            grid[x, z] = Instantiate(gridCellWhiteTilePrefab, new Vector3(x * GridSpaceSize, 0.01f, z * GridSpaceSize), Quaternion.identity);
-            grid[x, z].transform.parent = transform;
+            chessBoardGrid[x, z] = Instantiate(gridCellWhiteTilePrefab, new Vector3(x * _gridSpaceSize, 0.01f, z * _gridSpaceSize), Quaternion.identity);
+            chessBoardGrid[x, z].transform.parent = transform;
         }
     }
 }

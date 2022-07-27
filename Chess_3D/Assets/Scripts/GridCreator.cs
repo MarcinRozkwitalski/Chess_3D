@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridCreator : MonoBehaviour
 {
+    ChessPiecesHandler chessPiecesHandler;
+
     public int _xWidth = 8;
     public int _zWidth = 8;
     public float _gridSpaceSize = 1f;
@@ -14,17 +16,15 @@ public class GridCreator : MonoBehaviour
     [SerializeField]
     private GameObject gridCellBlackTilePrefab;
 
-    private GameObject[,] chessBoardGrid;
+    public GameObject[,] chessBoardGrid;
 
     void Start()
     {
-        StartCoroutine(CreateGrid());
+        chessPiecesHandler = GameObject.Find("ChessPiecesHandler").GetComponent<ChessPiecesHandler>();
     }
 
     public IEnumerator CreateGrid()
     {
-        yield return new WaitForSeconds(2f);
-
         chessBoardGrid = new GameObject[_xWidth, _zWidth];
 
         if (gridCellWhiteTilePrefab == null || gridCellBlackTilePrefab == null)
@@ -39,9 +39,14 @@ public class GridCreator : MonoBehaviour
         List<int> xList = new List<int>();
         List<int> zList = new List<int>();
 
-        for (int i = 0; i < _xWidth; i++) xList.Add(i);
-        for (int i = 0; i < _zWidth; i++) zList.Add(i);
+        for(int i = 0; i < _xWidth; i++) xList.Add(i);
+        for(int i = 0; i < _zWidth; i++) zList.Add(i);
 
+        if(_xWidth == 0 || _zWidth == 0)
+        {
+            Debug.LogError("ERROR: Given range(s) is/are equal to 0!");
+        }
+        else
         while(true)
         {
             if(xList.Contains(x) && z == 0)
@@ -182,6 +187,9 @@ public class GridCreator : MonoBehaviour
         //     }
         //     count++;
         // }
+
+        yield return new WaitForSeconds(1f);
+        yield return chessPiecesHandler.PlaceChessPieces();
 
         StopCoroutine(CreateGrid());
     }

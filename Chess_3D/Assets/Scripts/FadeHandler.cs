@@ -12,13 +12,16 @@ public class FadeHandler : MonoBehaviour
     {
         meshRenderer = this.GetComponent<MeshRenderer>();
 
-        if(meshRenderer.materials[0].name == "Black (Instance)")
+        switch(gameObject.tag)
         {
-            this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        }
-        else if(meshRenderer.materials[0].name == "White (Instance)")
-        {
-            this.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            case "White":
+                this.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                break;
+            case "Black":
+                this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+                break;
+            default:
+                break;
         }
 
         StartCoroutine(LerpFadeIn(0.5f));
@@ -29,16 +32,18 @@ public class FadeHandler : MonoBehaviour
         float time = 0;
         Color startValue = this.GetComponent<MeshRenderer>().material.color;
 
-        if(meshRenderer.materials[0].name == "Black (Instance)")
-        {
-            endValue = new Color(0.0f, 0.0f, 0.0f, 1.0f);
-        }
-        else if(meshRenderer.materials[0].name == "White (Instance)")
-        {
-            endValue = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        switch(gameObject.tag){
+            case "White":
+                endValue = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                break;
+            case "Black":
+                endValue = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            default:
+                break;
         }
 
-        while (time < duration)
+        while(time < duration)
         {
             meshRenderer.material.color = Color.Lerp(startValue, endValue, time / duration);
             time += Time.deltaTime;
@@ -46,6 +51,15 @@ public class FadeHandler : MonoBehaviour
         }
 
         meshRenderer.material.color = endValue;
+        meshRenderer.material.SetFloat("_Mode", 0);
+        meshRenderer.material.SetOverrideTag("RenderType", "");
+        meshRenderer.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        meshRenderer.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        meshRenderer.material.SetInt("_ZWrite", 1);
+        meshRenderer.material.DisableKeyword("_ALPHATEST_ON");
+        meshRenderer.material.DisableKeyword("_ALPHABLEND_ON");
+        meshRenderer.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        meshRenderer.material.renderQueue = -1;
 
         StopCoroutine(LerpFadeIn(0f));
     }

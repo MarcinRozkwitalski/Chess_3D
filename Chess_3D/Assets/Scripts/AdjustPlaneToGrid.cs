@@ -28,16 +28,14 @@ public class AdjustPlaneToGrid : MonoBehaviour
     private IEnumerator LerpStrechOut(float duration)
     {
         float time = 0;
-
         float t = time / duration;
 
         Transform startValue = transform;
-
         startValue.localScale = transform.localScale;
 
         float newDuration = duration * 8;
 
-        while (time < duration)
+        while(time < duration)
         {   
             t = time / newDuration;
             // t = t * t * t * (t * (6f * t - 15f) + 10f);
@@ -45,11 +43,11 @@ public class AdjustPlaneToGrid : MonoBehaviour
             transform.localScale = Vector3.Lerp(startValue.localScale, _newTransform, t);
             // t += 0.007f * Time.deltaTime;
             time += Time.deltaTime;
-            Debug.Log(t + "\t" + time);
             yield return null;
         }
-
         transform.localScale = _newTransform;
+
+        yield return gridCreator.CreateGrid();
 
         StopCoroutine(LerpStrechOut(0f));
     }

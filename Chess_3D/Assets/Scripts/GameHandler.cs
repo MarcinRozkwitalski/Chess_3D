@@ -39,16 +39,25 @@ public class GameHandler : MonoBehaviour
                 {
                     if(selection.name != "BlackTile(Clone)" && selection.name != "WhiteTile(Clone)" && selection.name != "Plane")
                     {
+                        Debug.Log(selection.name);
+                        
                         var selectionRenderer = selection.GetComponent<Renderer>();
                         var pieceLogicScript = selection.GetComponent<PieceLogic>();
 
                         if(pieceLogicScript != null)
                         {
-                            if(selectionRenderer != null && _whosTurnNow == 0 && pieceLogicScript._whichSide == 0)
-                                selectionRenderer.material.color = Color.green;
+                            if(selectionRenderer != null)
+                            {
+                                if(_whosTurnNow == 0 && pieceLogicScript._whichSide == 0)
+                                {
+                                    selectionRenderer.material.color = Color.green;
+                                }
 
-                            if(selectionRenderer != null && _whosTurnNow == 1 && pieceLogicScript._whichSide == 1)
-                                selectionRenderer.material.color = Color.green;
+                                if(_whosTurnNow == 1 && pieceLogicScript._whichSide == 1)
+                                {
+                                    selectionRenderer.material.color = Color.green;
+                                }
+                            }
                         }
 
                         _selection = selection;

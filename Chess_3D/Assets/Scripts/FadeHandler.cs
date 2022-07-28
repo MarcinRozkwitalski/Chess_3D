@@ -5,12 +5,12 @@ using UnityEngine;
 public class FadeHandler : MonoBehaviour
 {
 
-    MeshRenderer meshRenderer;
-    Color endValue;
+    MeshRenderer _meshRenderer;
+    Color _endValue;
 
     void Start()
     {
-        meshRenderer = this.GetComponent<MeshRenderer>();
+        _meshRenderer = this.GetComponent<MeshRenderer>();
 
         switch(gameObject.tag)
         {
@@ -34,10 +34,10 @@ public class FadeHandler : MonoBehaviour
 
         switch(gameObject.tag){
             case "White":
-                endValue = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                _endValue = Color.white;
                 break;
             case "Black":
-                endValue = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+                _endValue = Color.black;
                 break;
             default:
                 break;
@@ -45,21 +45,21 @@ public class FadeHandler : MonoBehaviour
 
         while(time < duration)
         {
-            meshRenderer.material.color = Color.Lerp(startValue, endValue, time / duration);
+            _meshRenderer.material.color = Color.Lerp(startValue, _endValue, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
 
-        meshRenderer.material.color = endValue;
-        meshRenderer.material.SetFloat("_Mode", 0);
-        meshRenderer.material.SetOverrideTag("RenderType", "");
-        meshRenderer.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-        meshRenderer.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-        meshRenderer.material.SetInt("_ZWrite", 1);
-        meshRenderer.material.DisableKeyword("_ALPHATEST_ON");
-        meshRenderer.material.DisableKeyword("_ALPHABLEND_ON");
-        meshRenderer.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-        meshRenderer.material.renderQueue = -1;
+        _meshRenderer.material.color = _endValue;
+        _meshRenderer.material.SetFloat("_Mode", 0);
+        _meshRenderer.material.SetOverrideTag("RenderType", "");
+        _meshRenderer.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        _meshRenderer.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        _meshRenderer.material.SetInt("_ZWrite", 1);
+        _meshRenderer.material.DisableKeyword("_ALPHATEST_ON");
+        _meshRenderer.material.DisableKeyword("_ALPHABLEND_ON");
+        _meshRenderer.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        _meshRenderer.material.renderQueue = -1;
 
         StopCoroutine(LerpFadeIn(0f));
     }

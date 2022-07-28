@@ -5,49 +5,38 @@ using UnityEngine;
 public class ChessPiecesHandler : MonoBehaviour
 {
     GridCreator gridCreator;
+    GameHandler gameHandler;
 
-    [SerializeField]
-    private float chessPieceYpos = 0.11f;
+    [SerializeField] private float _chessPieceYpos = 0.11f;
 
-    [SerializeField]
-    private GameObject WhitePawnPrefab;
+    [SerializeField] private GameObject WhitePawnPrefab;
 
-    [SerializeField]
-    private GameObject BlackPawnPrefab;
+    [SerializeField] private GameObject BlackPawnPrefab;
 
-    [SerializeField]
-    private GameObject WhiteKnightPrefab;
+    [SerializeField] private GameObject WhiteKnightPrefab;
 
-    [SerializeField]
-    private GameObject BlackKnightPrefab;
+    [SerializeField] private GameObject BlackKnightPrefab;
 
-    [SerializeField]
-    private GameObject WhiteBishopPrefab;
+    [SerializeField] private GameObject WhiteBishopPrefab;
 
-    [SerializeField]
-    private GameObject BlackBishopPrefab;
+    [SerializeField] private GameObject BlackBishopPrefab;
 
-    [SerializeField]
-    private GameObject WhiteRookPrefab;
+    [SerializeField] private GameObject WhiteRookPrefab;
 
-    [SerializeField]
-    private GameObject BlackRookPrefab;
+    [SerializeField] private GameObject BlackRookPrefab;
 
-    [SerializeField]
-    private GameObject WhiteQueenPrefab;
+    [SerializeField] private GameObject WhiteQueenPrefab;
 
-    [SerializeField]
-    private GameObject BlackQueenPrefab;
+    [SerializeField] private GameObject BlackQueenPrefab;
 
-    [SerializeField]
-    private GameObject WhiteKingPrefab;
+    [SerializeField] private GameObject WhiteKingPrefab;
 
-    [SerializeField]
-    private GameObject BlackKingPrefab;
+    [SerializeField] private GameObject BlackKingPrefab;
 
     void Start()
     {
         gridCreator = GameObject.Find("Grid").GetComponent<GridCreator>();
+        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
     }
 
     public IEnumerator PlaceChessPieces()
@@ -75,8 +64,23 @@ public class ChessPiecesHandler : MonoBehaviour
                 Debug.Log("[" + i + "] = " + defaultBlackChessPieces[i] + " < BlackChessPiece");
             }
 
-            StartCoroutine(PlaceChessPiecesFromCoordinates(0, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
-            StartCoroutine(PlaceChessPiecesFromCoordinates(0, 7, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
+            yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
+            yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 7, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
+
+            // for(int i = 0; i < gridCreator._xWidth; i++)
+            // {
+            //     for (int j = 0; j < gridCreator._zWidth; j++)
+            //     {
+            //         if(gridCreator.chessBoardGrid[i, j].name == "WhitePawn(Clone)")
+            //         {
+            //             Debug.Log(WhitePawnPrefab);
+            //             Debug.Log("i = " + i + " | j = " + j + " | " + gridCreator.chessBoardGrid[i, j]);
+            //         }
+            //     }
+            // }
+
+            gameHandler._gameHasBeenStarted = true;
+            gameHandler._letPlayersChoosePieces = true;
         }
 
         yield return null;
@@ -84,70 +88,67 @@ public class ChessPiecesHandler : MonoBehaviour
 
     public IEnumerator PlaceChessPiecesFromCoordinates(int x, int z, string WhichColor, List<int> whitePieces, List<int> blackPieces)
     {
-        if(WhichColor == "White")
+        switch(WhichColor)
         {
-            for(int i = 0; i < 2; i++)
-            {
-                if(i == 0)
+            case "White":
+                for(int i = 0; i < 2; i++)
                 {
-                    for(int j = 0; j < 8; j++)
+                    if(i == 0)
                     {
-                        int id = whitePieces[j];
-                        CheckWhiteChessPiece(id , x, z);
-                        yield return new WaitForSeconds(0.1f);
-                        x++;
+                        for(int j = 0; j < 8; j++)
+                        {
+                            int id = whitePieces[j];
+                            CheckWhiteChessPiece(id , x, z);
+                            if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
+                            x++;
+                        }
+                    }
+
+                    if(i == 1)
+                    {
+                        x = 0;
+                        z++;
+
+                        for(int j = 8; j < 16; j++)
+                        {
+                            int id = whitePieces[j];
+                            CheckWhiteChessPiece(id , x, z);
+                            if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
+                            x++;
+                        }
                     }
                 }
-                yield return new WaitForSeconds(0.5f);
+                break;
 
-                if(i == 1)
+            case "Black":
+                for(int i = 0; i < 2; i++)
                 {
-                    x = 0;
-                    z++;
-
-                    for(int j = 8; j < 16; j++)
+                    if(i == 0)
                     {
-                        int id = whitePieces[j];
-                        CheckWhiteChessPiece(id , x, z);
-                        yield return new WaitForSeconds(0.1f);
-                        x++;
+                        for(int j = 0; j < 8; j++)
+                        {
+                            int id = blackPieces[j];
+                            CheckBlackChessPiece(id , x, z);
+                            if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
+                            x++;
+                        }
+                    }
+
+                    if(i == 1)
+                    {
+                        x = 0;
+                        z--;
+                        for(int j = 8; j < 16; j++)
+                        {
+                            int id = blackPieces[j];
+                            CheckBlackChessPiece(id , x, z);
+                            if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
+                            x++;
+                        }
                     }
                 }
-            }
+                break;
         }
-
-        if(WhichColor == "Black")
-        {
-            for(int i = 0; i < 2; i++)
-            {
-                if(i == 0)
-                {
-                    for(int j = 0; j < 8; j++)
-                    {
-                        int id = blackPieces[j];
-                        CheckBlackChessPiece(id , x, z);
-                        yield return new WaitForSeconds(0.1f);
-                        x++;
-                    }
-                }
-                yield return new WaitForSeconds(0.5f);
-
-                if(i == 1)
-                {
-                    x = 0;
-                    z--;
-                    for(int j = 8; j < 16; j++)
-                    {
-                        int id = blackPieces[j];
-                        CheckBlackChessPiece(id , x, z);
-                        yield return new WaitForSeconds(0.1f);
-                        x++;
-                    }
-                }
-            }
-        }
-
-        yield return null;
     }
 
     public void CheckWhiteChessPiece(int id, int x, int z)
@@ -155,27 +156,27 @@ public class ChessPiecesHandler : MonoBehaviour
         switch(id)
         {
             case 0:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhitePawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhitePawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 1:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 2:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 3:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 4:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 5:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             default:
@@ -188,27 +189,27 @@ public class ChessPiecesHandler : MonoBehaviour
         switch(id)
         {
             case 0:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackPawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackPawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 1:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 2:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 3:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 4:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             case 5:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
                 gridCreator.chessBoardGrid[x, z].transform.parent = transform;
                 break;
             default:

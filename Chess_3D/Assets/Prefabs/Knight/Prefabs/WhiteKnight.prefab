@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 33961714295525734}
   - component: {fileID: 23756955892116760}
   - component: {fileID: -2584307221479038954}
+  - component: {fileID: 7829165815221991692}
+  - component: {fileID: 3430569355888209947}
   m_Layer: 0
   m_Name: WhiteKnight
   m_TagString: White
@@ -94,3 +96,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c552ace3cf522b4daaef87f2fd82826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7829165815221991692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992623236052302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f30493ad9409040a493fd1cfe76fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameOfChessPiece: 
+  _typeOfChessPiece: 0
+  _whichSide: 0
+--- !u!64 &3430569355888209947
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992623236052302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 3d375d4a1907b3f4098bb64446492fed, type: 3}

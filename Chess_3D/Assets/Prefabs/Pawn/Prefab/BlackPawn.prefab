@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 33039705604623312}
   - component: {fileID: 23288229226541454}
   - component: {fileID: 2368957349740517055}
+  - component: {fileID: 8721762796103413141}
+  - component: {fileID: 2199609897478590471}
   m_Layer: 0
   m_Name: BlackPawn
   m_TagString: Black
@@ -94,3 +96,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c552ace3cf522b4daaef87f2fd82826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8721762796103413141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867195236767680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f30493ad9409040a493fd1cfe76fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameOfChessPiece: 
+  _typeOfChessPiece: 0
+  _whichSide: 0
+--- !u!64 &2199609897478590471
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867195236767680}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 1ae3b6cad3254b848942cea678f244c7, type: 3}

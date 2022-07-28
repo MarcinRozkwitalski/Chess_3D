@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 33624409683771760}
   - component: {fileID: 23106028074910512}
   - component: {fileID: 4556594267227786340}
+  - component: {fileID: -6150201586487399035}
+  - component: {fileID: 8921649775311234766}
   m_Layer: 0
   m_Name: BlackKing
   m_TagString: Black
@@ -94,3 +96,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c552ace3cf522b4daaef87f2fd82826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6150201586487399035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810274083847610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f30493ad9409040a493fd1cfe76fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameOfChessPiece: 
+  _typeOfChessPiece: 0
+  _whichSide: 0
+--- !u!64 &8921649775311234766
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810274083847610}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 0d4dc18442ed9d14698239a5a964f27f, type: 3}

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 33386584874682660}
   - component: {fileID: 23714218359197728}
   - component: {fileID: -1732479264724947484}
+  - component: {fileID: -5595602004416403867}
+  - component: {fileID: -3208086987495986964}
   m_Layer: 0
   m_Name: WhiteQueen
   m_TagString: White
@@ -94,3 +96,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c552ace3cf522b4daaef87f2fd82826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5595602004416403867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945632463053948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f30493ad9409040a493fd1cfe76fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameOfChessPiece: 
+  _typeOfChessPiece: 0
+  _whichSide: 0
+--- !u!64 &-3208086987495986964
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945632463053948}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 8d213db23e89f6b4fa3d427f07a32b13, type: 3}

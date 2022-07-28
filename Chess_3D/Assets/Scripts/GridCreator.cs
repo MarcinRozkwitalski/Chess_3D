@@ -10,11 +10,11 @@ public class GridCreator : MonoBehaviour
     public int _zWidth = 8;
     public float _gridSpaceSize = 1f;
     
-    [SerializeField]
-    private GameObject gridCellWhiteTilePrefab;
+    [SerializeField] private GameObject gridCellWhiteTilePrefab;
 
-    [SerializeField]
-    private GameObject gridCellBlackTilePrefab;
+    [SerializeField] private GameObject gridCellBlackTilePrefab;
+
+    public bool normalSpeed = false;
 
     public GameObject[,] chessBoardGrid;
 
@@ -54,11 +54,11 @@ public class GridCreator : MonoBehaviour
                 if(x == 0 && z == 0)
                 {
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.05f);
+                    if(normalSpeed) yield return new WaitForSeconds(0.05f);
                 }
                 x++;
                 CreateTilePrefabOnGrid("Black", x, z);
-                yield return new WaitForSeconds(0.05f);
+                if(normalSpeed) yield return new WaitForSeconds(0.05f);
 
                 int tempX = x;
 
@@ -69,7 +69,7 @@ public class GridCreator : MonoBehaviour
                     x--;
                     z++;
                     CreateTilePrefabOnGrid("Black", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)tempX));
+                    if(normalSpeed) yield return new WaitForSeconds(0.1f/((float)tempX));
                 }
             }
 
@@ -77,7 +77,7 @@ public class GridCreator : MonoBehaviour
             {
                 x++;
                 CreateTilePrefabOnGrid("White", x, z);
-                yield return new WaitForSeconds(0.05f); 
+                if(normalSpeed) yield return new WaitForSeconds(0.05f); 
 
                 int tempX = x;
                 int tempZ = z;
@@ -109,7 +109,7 @@ public class GridCreator : MonoBehaviour
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)tempZ - (float)tempX));
+                    if(normalSpeed) yield return new WaitForSeconds(0.1f/((float)tempZ - (float)tempX));
                 }
             }
 
@@ -117,7 +117,7 @@ public class GridCreator : MonoBehaviour
             {
                 z++;
                 CreateTilePrefabOnGrid("White", x, z);
-                yield return new WaitForSeconds(0.05f);
+                if(normalSpeed) yield return new WaitForSeconds(0.05f);
 
                 int tempZ = z;
 
@@ -128,7 +128,7 @@ public class GridCreator : MonoBehaviour
                     x++;
                     z--;
                     CreateTilePrefabOnGrid("White", x, z);
-                    yield return new WaitForSeconds(0.1f/((float)tempZ));
+                    if(normalSpeed) yield return new WaitForSeconds(0.1f/((float)tempZ));
                 }
             }
 
@@ -139,7 +139,7 @@ public class GridCreator : MonoBehaviour
                 {
                     z++;
                     CreateTilePrefabOnGrid("Black", x, z);
-                    yield return new WaitForSeconds(0.05f);
+                    if(normalSpeed) yield return new WaitForSeconds(0.05f);
 
                     int tempX = x;
                     int tempZ = z;
@@ -156,7 +156,7 @@ public class GridCreator : MonoBehaviour
                         x--;
                         z++;
                         CreateTilePrefabOnGrid("Black", x, z);
-                        yield return new WaitForSeconds(0.1f/((float)tempX - (float)tempZ));
+                        if(normalSpeed) yield return new WaitForSeconds(0.1f/((float)tempX - (float)tempZ));
                     }
                 }
             }
@@ -188,8 +188,9 @@ public class GridCreator : MonoBehaviour
         //     count++;
         // }
 
-        yield return new WaitForSeconds(1f);
-        yield return chessPiecesHandler.PlaceChessPieces();
+        if(normalSpeed) yield return new WaitForSeconds(1f);
+        if(normalSpeed) yield return chessPiecesHandler.PlaceChessPieces();
+        else            StartCoroutine(chessPiecesHandler.PlaceChessPieces());
 
         StopCoroutine(CreateGrid());
     }

@@ -6,7 +6,6 @@ public class AdjustPlaneToGrid : MonoBehaviour
 {
     GridCreator gridCreator;
     Vector3 _newTransform;
-    Vector3 endValue;
 
     void Start()
     {
@@ -22,7 +21,8 @@ public class AdjustPlaneToGrid : MonoBehaviour
                                             1, 
                                             ((0.1f * (float)gridCreator._zWidth) + 0.1f) * (float)gridCreator._gridSpaceSize);
 
-        StartCoroutine(LerpStrechOut(2f));
+        if(gridCreator.normalSpeed) StartCoroutine(LerpStrechOut(2f));
+        else                        StartCoroutine(LerpStrechOut(0.01f));
     }
 
     private IEnumerator LerpStrechOut(float duration)
@@ -47,7 +47,8 @@ public class AdjustPlaneToGrid : MonoBehaviour
         }
         transform.localScale = _newTransform;
 
-        yield return gridCreator.CreateGrid();
+        if(gridCreator.normalSpeed) yield return gridCreator.CreateGrid();
+        else                        StartCoroutine(gridCreator.CreateGrid());
 
         StopCoroutine(LerpStrechOut(0f));
     }

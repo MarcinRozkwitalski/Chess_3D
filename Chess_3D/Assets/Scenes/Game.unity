@@ -232,6 +232,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e67d2105cd03c645a568e6a35cf8b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &135704260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 135704261}
+  - component: {fileID: 135704262}
+  m_Layer: 0
+  m_Name: GameHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &135704261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135704260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.39589882, y: 3.4889755, z: 3.397514}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &135704262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135704260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09491392fa7de7d4f9fac6c0d96ed425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameHasBeenStarted: 0
+  _whosTurnNow: 0
 --- !u!1 &294643965
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +439,7 @@ MonoBehaviour:
     type: 3}
   gridCellBlackTilePrefab: {fileID: 4070615854259705381, guid: 9157136c2258e24408f377b33a2a9397,
     type: 3}
+  normalSpeed: 0
 --- !u!1 &1691704792
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c64bd46f1103142846bd850ef71ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chessPieceYpos: 0.11
+  _chessPieceYpos: 0.11
   WhitePawnPrefab: {fileID: 1006356879557798, guid: 391882f14be491c40962add653844907,
     type: 3}
   BlackPawnPrefab: {fileID: 1867195236767680, guid: b1d95c04dd54e434aa65855a0f77d30f,

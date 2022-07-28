@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class MoveAroundObject : MonoBehaviour
 {
-    [SerializeField]
-    private float _mouseSensitivity = 3.0f;
+    [SerializeField] private float _mouseSensitivity = 3.0f;
 
     private float _rotationX = 20f;
     private float _rotationY;
     
-    [SerializeField]
-    private Transform _target;
+    [SerializeField] private Transform _target;
 
-    [SerializeField]
-    private float _distanceFromTarget = 8.0f;
+    [SerializeField] private float _distanceFromTarget = 8.0f;
 
     void Update()
     {

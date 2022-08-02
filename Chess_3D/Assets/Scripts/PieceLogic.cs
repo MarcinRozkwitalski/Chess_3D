@@ -12,6 +12,8 @@ public class PieceLogic : MonoBehaviour
 
     [SerializeField] public int _whichSide; // 0 - white, 1 - black
 
+    [SerializeField] public bool _isSelected = false;
+
     MeshRenderer _meshRenderer;
     Color _initialColor;
 

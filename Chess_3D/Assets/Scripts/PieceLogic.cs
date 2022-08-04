@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PieceLogic : MonoBehaviour
 {
+    GridCreator gridCreator;
     GameHandler gameHandler;
 
     [SerializeField] private string _nameOfChessPiece;
@@ -14,11 +15,14 @@ public class PieceLogic : MonoBehaviour
 
     [SerializeField] public bool _isSelected = false;
 
+    [SerializeField] public bool _flagForTileGeneration = false;
+
     MeshRenderer _meshRenderer;
     Color _initialColor;
 
     void Start()
     {
+        gridCreator = GameObject.Find("Grid").GetComponent<GridCreator>();
         gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         _meshRenderer = this.GetComponent<MeshRenderer>();
 
@@ -39,6 +43,55 @@ public class PieceLogic : MonoBehaviour
         CheckTypeOfChessPiece(_nameOfChessPiece);
     }
 
+    void FixedUpdate() {
+        if(_isSelected && !_flagForTileGeneration)
+        {
+            _flagForTileGeneration = true;
+
+            if(_isSelected && _flagForTileGeneration)
+            {
+                switch(_typeOfChessPiece)
+                {
+                    case 0:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+                        PawnMovement(_whichSide);
+                        break;
+
+                    case 1:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+
+                        break;
+
+                    case 2:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+
+                        break;
+
+                    case 3:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+
+                        break;
+
+                    case 4:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+
+                        break;
+
+                    case 5:
+                        Debug.Log(_nameOfChessPiece + " selected");
+                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
+
+                        break;
+                }
+            }
+        }
+    }
+
     void CheckTypeOfChessPiece(string nameOfChessPiece)
     {
         if(nameOfChessPiece == "WhitePawn(Clone)" || nameOfChessPiece == "BlackPawn(Clone)")            _typeOfChessPiece = 0;
@@ -47,5 +100,100 @@ public class PieceLogic : MonoBehaviour
         else if(nameOfChessPiece == "WhiteRook(Clone)" || nameOfChessPiece == "BlackRook(Clone)")       _typeOfChessPiece = 3;
         else if(nameOfChessPiece == "WhiteQueen(Clone)" || nameOfChessPiece == "BlackQueen(Clone)")     _typeOfChessPiece = 4;
         else if(nameOfChessPiece == "WhiteKing(Clone)" || nameOfChessPiece == "BlackKing(Clone)")       _typeOfChessPiece = 5;
+    }
+
+    void PawnMovement(int _whichSide)
+    {
+        if(_whichSide == 0)
+        {
+            int z = (int)gameObject.transform.position.z;
+            int x = (int)gameObject.transform.position.x;
+            
+            z++;
+
+            if(gridCreator.chessPiecesGrid[x, z] == null)
+            {
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+
+                z++;
+                if(gameObject.transform.position.z == 1)
+                {
+                    if(gridCreator.chessPiecesGrid[x, z] == null)
+                    {
+                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                    }
+                }
+            }
+        }
+        else if(_whichSide == 1)
+        {
+            int z = (int)gameObject.transform.position.z;
+            int x = (int)gameObject.transform.position.x;
+            
+            z--;
+
+            if(gridCreator.chessPiecesGrid[x, z] == null)
+            {
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+
+                z--;
+                if(gameObject.transform.position.z == 6)
+                {
+                    if(gridCreator.chessPiecesGrid[x, z] == null)
+                    {
+                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                    }
+                }
+            }
+        }
+    }
+
+    void KnightMovement()
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            //1 - z++, z++, x++
+            //2 - z++, z++, x--
+            //3 - z--, z--, x++
+            //4 - z--, z--, x--
+            //5 - x++, x++, z--
+            //6 - x++, x++, z++
+            //7 - x--, x--, z--
+            //8 - x--, x--, z++
+        }
+    }
+
+    void BishopMovement()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            //detect for how long it can go diagonally without getting interrupted by any piece or by grid width
+            //per tile z++ x++ or z++ x-- or z-- x++ or z-- x--
+        }
+    }
+
+    void RookMovement()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            //detect for how long it can go diagonally without getting interrupted by any piece or by grid width 
+            //per tile z++ or z-- or x++ or x--
+        }
+    }
+
+    void QueenMovement()
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            //bishop + rook
+        }
+    }
+
+    void KingMovement()
+    {
+        for(int i = 0; i < 8; i++)
+        {
+
+        }
     }
 }

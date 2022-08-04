@@ -67,18 +67,6 @@ public class ChessPiecesHandler : MonoBehaviour
             yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
             yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 7, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
 
-            // for(int i = 0; i < gridCreator._xWidth; i++)
-            // {
-            //     for (int j = 0; j < gridCreator._zWidth; j++)
-            //     {
-            //         if(gridCreator.chessBoardGrid[i, j].name == "WhitePawn(Clone)")
-            //         {
-            //             Debug.Log(WhitePawnPrefab);
-            //             Debug.Log("i = " + i + " | j = " + j + " | " + gridCreator.chessBoardGrid[i, j]);
-            //         }
-            //     }
-            // }
-
             gameHandler._gameHasBeenStarted = true;
             gameHandler._letPlayersChoosePieces = true;
         }
@@ -98,7 +86,7 @@ public class ChessPiecesHandler : MonoBehaviour
                         for(int j = 0; j < 8; j++)
                         {
                             int id = whitePieces[j];
-                            CheckWhiteChessPiece(id , x, z);
+                            CheckWhiteChessPiece(id, x, z);
                             if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
                             x++;
                         }
@@ -112,7 +100,7 @@ public class ChessPiecesHandler : MonoBehaviour
                         for(int j = 8; j < 16; j++)
                         {
                             int id = whitePieces[j];
-                            CheckWhiteChessPiece(id , x, z);
+                            CheckWhiteChessPiece(id, x, z);
                             if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
                             x++;
                         }
@@ -128,7 +116,7 @@ public class ChessPiecesHandler : MonoBehaviour
                         for(int j = 0; j < 8; j++)
                         {
                             int id = blackPieces[j];
-                            CheckBlackChessPiece(id , x, z);
+                            CheckBlackChessPiece(id, x, z);
                             if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
                             x++;
                         }
@@ -141,7 +129,7 @@ public class ChessPiecesHandler : MonoBehaviour
                         for(int j = 8; j < 16; j++)
                         {
                             int id = blackPieces[j];
-                            CheckBlackChessPiece(id , x, z);
+                            CheckBlackChessPiece(id, x, z);
                             if(gridCreator.normalSpeed) yield return new WaitForSeconds(0.1f);
                             x++;
                         }
@@ -156,28 +144,28 @@ public class ChessPiecesHandler : MonoBehaviour
         switch(id)
         {
             case 0:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhitePawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhitePawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 1:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhiteKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 2:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhiteBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 3:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhiteRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 4:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhiteQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 5:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(WhiteKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(WhiteKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.identity);
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             default:
                 break;
@@ -189,28 +177,28 @@ public class ChessPiecesHandler : MonoBehaviour
         switch(id)
         {
             case 0:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackPawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackPawnPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 1:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackKnightPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 2:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackBishopPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 3:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackRookPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 4:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackQueenPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             case 5:
-                gridCreator.chessBoardGrid[x, z] = Instantiate(BlackKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
-                gridCreator.chessBoardGrid[x, z].transform.parent = transform;
+                gridCreator.chessPiecesGrid[x, z] = Instantiate(BlackKingPrefab, new Vector3(x * gridCreator._gridSpaceSize, _chessPieceYpos, z * gridCreator._gridSpaceSize), Quaternion.Euler(new Vector3(0, 180, 0)));
+                gridCreator.chessPiecesGrid[x, z].transform.parent = transform;
                 break;
             default:
                 break;

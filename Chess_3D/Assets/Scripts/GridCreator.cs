@@ -10,13 +10,14 @@ public class GridCreator : MonoBehaviour
     public int _zWidth = 8;
     public float _gridSpaceSize = 1f;
     
-    [SerializeField] private GameObject gridCellWhiteTilePrefab;
+    [SerializeField] public GameObject gridCellWhiteTilePrefab;
 
-    [SerializeField] private GameObject gridCellBlackTilePrefab;
+    [SerializeField] public GameObject gridCellBlackTilePrefab;
 
     public bool normalSpeed = false;
 
     public GameObject[,] chessBoardGrid;
+    public GameObject[,] chessPiecesGrid;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class GridCreator : MonoBehaviour
     public IEnumerator CreateGrid()
     {
         chessBoardGrid = new GameObject[_xWidth, _zWidth];
+        chessPiecesGrid = new GameObject[_xWidth, _zWidth];
 
         if (gridCellWhiteTilePrefab == null || gridCellBlackTilePrefab == null)
         {

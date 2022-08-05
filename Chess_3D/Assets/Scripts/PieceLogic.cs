@@ -108,42 +108,56 @@ public class PieceLogic : MonoBehaviour
         {
             int z = (int)gameObject.transform.position.z;
             int x = (int)gameObject.transform.position.x;
-            
-            z++;
 
-            if(gridCreator.chessPiecesGrid[x, z] == null)
+            if(gridCreator.chessPiecesGrid[x, z + 1] == null)
             {
-                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                gridCreator.chessBoardGrid[x, z + 1].gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-                z++;
                 if(gameObject.transform.position.z == 1)
                 {
-                    if(gridCreator.chessPiecesGrid[x, z] == null)
+                    if(gridCreator.chessPiecesGrid[x, z + 2] == null)
                     {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                        gridCreator.chessBoardGrid[x, z + 2].gameObject.GetComponent<Renderer>().material.color = Color.green;
                     }
                 }
+            }
+
+            if(gridCreator.chessPiecesGrid[x - 1, z + 1] != null && gridCreator.chessPiecesGrid[x - 1, z + 1].CompareTag("Black"))
+            {
+                gridCreator.chessBoardGrid[x - 1, z + 1].gameObject.GetComponent<Renderer>().material.color = Color.red;
+            }
+
+            if(gridCreator.chessPiecesGrid[x + 1, z + 1] != null && gridCreator.chessPiecesGrid[x + 1, z + 1].CompareTag("Black"))
+            {
+                gridCreator.chessBoardGrid[x + 1, z + 1].gameObject.GetComponent<Renderer>().material.color = Color.red;
             }
         }
         else if(_whichSide == 1)
         {
             int z = (int)gameObject.transform.position.z;
             int x = (int)gameObject.transform.position.x;
-            
-            z--;
 
-            if(gridCreator.chessPiecesGrid[x, z] == null)
+            if(gridCreator.chessPiecesGrid[x, z - 1] == null)
             {
-                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                gridCreator.chessBoardGrid[x, z - 1].gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-                z--;
                 if(gameObject.transform.position.z == 6)
                 {
-                    if(gridCreator.chessPiecesGrid[x, z] == null)
+                    if(gridCreator.chessPiecesGrid[x, z - 2] == null)
                     {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+                        gridCreator.chessBoardGrid[x, z - 2].gameObject.GetComponent<Renderer>().material.color = Color.green;
                     }
                 }
+            }
+
+            if(gridCreator.chessPiecesGrid[x - 1, z - 1] != null && gridCreator.chessPiecesGrid[x - 1, z - 1].CompareTag("White"))
+            {
+                gridCreator.chessBoardGrid[x - 1, z - 1].gameObject.GetComponent<Renderer>().material.color = Color.red;
+            }
+
+            if(gridCreator.chessPiecesGrid[x + 1, z - 1] != null && gridCreator.chessPiecesGrid[x + 1, z - 1].CompareTag("White"))
+            {
+                gridCreator.chessBoardGrid[x + 1, z - 1].gameObject.GetComponent<Renderer>().material.color = Color.red;
             }
         }
     }

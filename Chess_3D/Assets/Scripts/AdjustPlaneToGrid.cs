@@ -9,7 +9,7 @@ public class AdjustPlaneToGrid : MonoBehaviour
 
     void Start()
     {
-        gridCreator = GameObject.Find("Grid").GetComponent<GridCreator>();
+        gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
 
         // - 0.1f *gridCreator._gridSpaceSize
 
@@ -21,6 +21,12 @@ public class AdjustPlaneToGrid : MonoBehaviour
                                             1, 
                                             ((0.1f * (float)gridCreator._zWidth) + 0.1f) * (float)gridCreator._gridSpaceSize);
 
+        // if(gridCreator.normalSpeed) StartCoroutine(LerpStrechOut(2f));
+        // else                        StartCoroutine(LerpStrechOut(0.01f));
+    }
+
+    public void StartAnimation()
+    {
         if(gridCreator.normalSpeed) StartCoroutine(LerpStrechOut(2f));
         else                        StartCoroutine(LerpStrechOut(0.01f));
     }

@@ -218,7 +218,7 @@ Transform:
   m_LocalScale: {x: 0, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &47740237
 MonoBehaviour:
@@ -242,6 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135704261}
   - component: {fileID: 135704262}
+  - component: {fileID: 135704263}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -257,11 +258,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135704260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.39589882, y: 3.4889755, z: 3.397514}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &135704262
 MonoBehaviour:
@@ -281,6 +282,18 @@ MonoBehaviour:
   _currentGOSelection: {fileID: 0}
   _currentGOSelectionPieceLogic: {fileID: 0}
   _lastWhichSide: 0
+--- !u!114 &135704263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135704260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc59b71e8711c14eb8cbf0615928eee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &294643965
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +406,7 @@ GameObject:
   - component: {fileID: 509579530}
   - component: {fileID: 509579532}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: TileGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,7 +436,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &509579532
 MonoBehaviour:
@@ -524,6 +537,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520061794}
   m_CullTransparentMesh: 1
+--- !u!1 &986437750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 986437751}
+  m_Layer: 0
+  m_Name: --------------------
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &986437751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986437750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.87661, y: -3.3423305, z: -3.3111632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030120556
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +710,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1112065060
 GameObject:
@@ -760,7 +803,6 @@ GameObject:
   - component: {fileID: 1113993568}
   - component: {fileID: 1113993567}
   - component: {fileID: 1113993566}
-  - component: {fileID: 1113993565}
   m_Layer: 5
   m_Name: Button01
   m_TagString: Untagged
@@ -788,24 +830,6 @@ RectTransform:
   m_AnchoredPosition: {x: -259, y: -208.7}
   m_SizeDelta: {x: 85.153, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1113993565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1113993563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09491392fa7de7d4f9fac6c0d96ed425, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameHasBeenStarted: 0
-  _letPlayersChoosePieces: 0
-  _whosTurnNow: 0
-  _currentGOSelection: {fileID: 0}
-  _currentGOSelectionPieceLogic: {fileID: 0}
-  _lastWhichSide: 0
 --- !u!114 &1113993566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -850,8 +874,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 135704262}
-        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
+      - m_Target: {fileID: 135704263}
+        m_TargetAssemblyTypeName: TestingHandler, Assembly-CSharp
         m_MethodName: CheckGameStatusButton01
         m_Mode: 1
         m_Arguments:
@@ -900,6 +924,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1113993563}
   m_CullTransparentMesh: 1
+--- !u!1 &1265442201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1265442202}
+  m_Layer: 0
+  m_Name: --------------------
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1265442202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265442201}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.87661, y: -3.3423305, z: -3.3111632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1367346131
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,7 +1049,7 @@ RectTransform:
   - {fileID: 1478809470}
   - {fileID: 1113993564}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1088,7 +1142,6 @@ GameObject:
   - component: {fileID: 1478809473}
   - component: {fileID: 1478809472}
   - component: {fileID: 1478809471}
-  - component: {fileID: 1478809474}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1160,8 +1213,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 135704262}
-        m_TargetAssemblyTypeName: GameHandler, Assembly-CSharp
+      - m_Target: {fileID: 135704263}
+        m_TargetAssemblyTypeName: TestingHandler, Assembly-CSharp
         m_MethodName: CheckGameStatusButton
         m_Mode: 1
         m_Arguments:
@@ -1210,24 +1263,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1478809469}
   m_CullTransparentMesh: 1
---- !u!114 &1478809474
-MonoBehaviour:
+--- !u!1 &1602111164
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478809469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09491392fa7de7d4f9fac6c0d96ed425, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameHasBeenStarted: 0
-  _letPlayersChoosePieces: 0
-  _whosTurnNow: 0
-  _currentGOSelection: {fileID: 0}
-  _currentGOSelectionPieceLogic: {fileID: 0}
-  _lastWhichSide: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602111165}
+  m_Layer: 0
+  m_Name: --------------------
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1602111165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602111164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.87661, y: -3.3423305, z: -3.3111632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1691704792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,7 +1304,7 @@ GameObject:
   - component: {fileID: 1691704794}
   - component: {fileID: 1691704793}
   m_Layer: 0
-  m_Name: ChessPiecesHandler
+  m_Name: ChessPiecesGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,7 +1319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1691704792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3c64bd46f1103142846bd850ef71ada, type: 3}
+  m_Script: {fileID: 11500000, guid: 06b897cb4f9666040830804702603d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _chessPieceYpos: 0.11
@@ -1294,7 +1359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1893225466
 GameObject:

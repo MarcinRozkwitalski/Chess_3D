@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6536322060661475354}
   m_Layer: 0
   m_Name: BlackTile
-  m_TagString: Black
+  m_TagString: BlackTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

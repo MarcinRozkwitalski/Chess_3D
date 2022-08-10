@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GameHandler : MonoBehaviour
 {
     GridCreator gridCreator;
+    ChessPiecesGrid chessPiecesGrid;
+    AdjustPlaneToGrid adjustPlaneToGrid;
 
     public bool _gameHasBeenStarted = false;
     public bool _letPlayersChoosePieces = false;
@@ -21,22 +23,26 @@ public class GameHandler : MonoBehaviour
 
     private void Start() 
     {
-        gridCreator = GameObject.Find("Grid").GetComponent<GridCreator>();
+        gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
+        chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
+        adjustPlaneToGrid = GameObject.Find("Plane").GetComponent<AdjustPlaneToGrid>();
         GameInfoText = GameObject.Find("GameInfoText").GetComponent<Text>();
+
+        adjustPlaneToGrid.StartAnimation();
     }
 
     private void Update() 
     {
-        if(_currentGOSelection) _currentGOSelection.GetComponent<Renderer>().material.color = Color.green;
-
         if(_gameHasBeenStarted && _letPlayersChoosePieces)
         {
+            if(_currentGOSelection) _currentGOSelection.GetComponent<Renderer>().material.color = Color.green;
+
             if(_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
                 var pieceLogicScript = _selection.GetComponent<PieceLogic>();
 
-                if(pieceLogicScript != null)
+                if(pieceLogicScript != null && pieceLogicScript._whichSide == _whosTurnNow)
                 {
                     if(pieceLogicScript._whichSide == 0) selectionRenderer.material.color = Color.white;
                     else if(pieceLogicScript._whichSide == 1) selectionRenderer.material.color = Color.black;
@@ -52,91 +58,61 @@ public class GameHandler : MonoBehaviour
             {
                 var selection = hit.transform;
 
-                if(selection.CompareTag("Black") || selection.CompareTag("White"))
+                if(selection)
                 {
-                    if(selection.name != "BlackTile(Clone)" && selection.name != "WhiteTile(Clone)" && selection.name != "Plane" && selection.gameObject != _currentGOSelection)
-                    {
-                        var selectionRenderer = selection.GetComponent<Renderer>();
-                        var pieceLogicScript = selection.GetComponent<PieceLogic>();
-
-                        if(pieceLogicScript != null && selectionRenderer != null)
-                        {
-                            if(_whosTurnNow == 0 && pieceLogicScript._whichSide == 0)
-                            {
-                                selectionRenderer.material.color = Color.yellow;
-                                if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
-                            }
-
-                            if(_whosTurnNow == 1 && pieceLogicScript._whichSide == 1)
-                            {
-                                selectionRenderer.material.color = Color.yellow;
-                                if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
-                            }
-                        }
-
-                        _selection = selection;
-                    }
-                    else if(selection.gameObject == _currentGOSelection)
-                    {
-                        if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
-                    }
-                    else if(selection == null || selection.name == "BlackTile(Clone)" || selection.name == "WhiteTile(Clone)" || selection.name == "Plane")
-                    {
-                        if(selection.name == "BlackTile(Clone)" || selection.name == "WhiteTile(Clone)")
-                        {
-                            if(selection.GetComponent<Renderer>().material.color == Color.green)
-                            {
-                                if(Input.GetMouseButtonDown(0))
-                                {
-                                    GameObject tempCurrentGOSelection = _currentGOSelection;
-                                    PieceLogic tempCurrentGoSelectionPieceLogic = _currentGOSelectionPieceLogic;
-                                    int z = (int)_currentGOSelection.transform.position.z;
-                                    int x = (int)_currentGOSelection.transform.position.x;
-                                    _currentGOSelection = null;
-                                    _currentGOSelectionPieceLogic = null;
-
-                                    int new_z = (int)selection.transform.position.z;
-                                    int new_x = (int)selection.transform.position.x;
-                                    
-                                    gridCreator.chessPiecesGrid[new_x, new_z] = tempCurrentGOSelection;
-                                    tempCurrentGOSelection.transform.position = tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z);
-
-                                    if(z % 2 == 0 && x % 2 == 0 || z % 2 != 0 && x % 2 != 0)
-                                    {
-                                        gridCreator.chessBoardGrid[x, z].name = "WhiteTile(Clone)";
-                                    }
-                                    else
-                                    {
-                                        gridCreator.chessBoardGrid[x, z].name = "BlackTile(Clone)";
-                                    }
-
-                                    if(tempCurrentGoSelectionPieceLogic._whichSide == 0)
-                                    {
-                                        tempCurrentGOSelection.GetComponent<Renderer>().material.color = Color.white;
-                                        _lastWhichSide = 0;
-                                        _whosTurnNow = 1;
-                                    }
-                                    else if(tempCurrentGoSelectionPieceLogic._whichSide == 1)
-                                    {
-                                        tempCurrentGOSelection.GetComponent<Renderer>().material.color = Color.black;
-                                        _lastWhichSide = 1;
-                                        _whosTurnNow = 0;
-                                    }
-                                    
-                                    tempCurrentGoSelectionPieceLogic._isSelected = false;
-                                    tempCurrentGoSelectionPieceLogic._flagForTileGeneration = false;
-
-                                    CleanTiles();
-                                }
-                            }
-                        }
-                        else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection(); 
-                    }
+                    HandlePlayer(selection);
                 }
-                else //RayCast detected object other than with tag Black or White
+                else
                 if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
             }
             else //RayCast hits nothing (false)
+            if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
+        }
+    }
+
+    void HandlePlayer(Transform selection)
+    {
+        if(_currentGOSelection != null && selection.gameObject != _currentGOSelection)
+        {
+            if(selection.CompareTag("White") || selection.CompareTag("Black"))
+            {
+                if(selection.GetComponent<Renderer>().material.color == Color.red)
+                {
+                    if(Input.GetMouseButtonDown(0))
+                    {
+                        HandlePieceMovement(selection);
+                    }
+                }
+                else 
+                {
+                    HandleYellowHover(selection);
+                }
+            }
+            else if(selection.CompareTag("WhiteTile") || selection.CompareTag("BlackTile"))
+            {
+                if(selection.GetComponent<Renderer>().material.color == Color.green)
+                {
+                    if(Input.GetMouseButtonDown(0))
+                    {
+                        HandlePieceMovement(selection);
+                    }
+                }
+                if(selection.GetComponent<Renderer>().material.color == Color.red)
+                {
+                    if(Input.GetMouseButtonDown(0))
+                    {
+                        HandlePieceMovement(selection);
+                    }
+                }
+            }
+            else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection(); 
+        }
+        else if(selection.name != "BlackTile(Clone)" && selection.name != "WhiteTile(Clone)" && selection.name != "Plane" && selection.gameObject != _currentGOSelection)
+        {
+            HandleYellowHover(selection);
+        }
+        else if(selection.gameObject == _currentGOSelection) //wcisniecie wczesniej wybranej bierki
+        {
             if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
         }
     }
@@ -180,35 +156,115 @@ public class GameHandler : MonoBehaviour
     {
         if(_currentGOSelection && _currentGOSelectionPieceLogic)
         {
-            switch(_currentGOSelectionPieceLogic._whichSide)
+            if(_currentGOSelectionPieceLogic._whichSide == 0)
             {
-                case 0:
-                    _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
+                _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
+            }
+            else if(_currentGOSelectionPieceLogic._whichSide == 1)
+            {
+                _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
+            }
 
-                    _currentGOSelectionPieceLogic._isSelected = false;
-                    _currentGOSelectionPieceLogic._flagForTileGeneration = false;
+            _currentGOSelectionPieceLogic._isSelected = false;
+            _currentGOSelectionPieceLogic._flagForTileGeneration = false;
 
-                    _currentGOSelection = null;
-                    _currentGOSelectionPieceLogic = null;
+            _currentGOSelection = null;
+            _currentGOSelectionPieceLogic = null;
 
-                    CleanTiles();
-                    break;
+            CleanTiles();
+            CleanChessPieces();
+        }
+    }
 
-                case 1:
-                    _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
+    public void HandleYellowHover(Transform selection)
+    {
+        var selectionRenderer = selection.GetComponent<Renderer>();
+        var pieceLogicScript = selection.GetComponent<PieceLogic>();
 
-                    _currentGOSelectionPieceLogic._isSelected = false;
-                    _currentGOSelectionPieceLogic._flagForTileGeneration = false;
+        if(pieceLogicScript != null && selectionRenderer != null)
+        {
+            if(_whosTurnNow == 0 && pieceLogicScript._whichSide == 0)
+            {
+                selectionRenderer.material.color = Color.yellow;
+                if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
+            }
 
-                    _currentGOSelection = null;
-                    _currentGOSelectionPieceLogic = null;
+            if(_whosTurnNow == 1 && pieceLogicScript._whichSide == 1)
+            {
+                selectionRenderer.material.color = Color.yellow;
+                if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
+            }
+        }
 
-                    CleanTiles();
-                    break;
+        _selection = selection;
+    }
 
-                default:
-                    Debug.LogError("Whoops!");
-                    break;
+    public void HandlePieceMovement(Transform selection)
+    {
+        GameObject tempCurrentGOSelection = _currentGOSelection;
+        PieceLogic tempCurrentGoSelectionPieceLogic = _currentGOSelectionPieceLogic;
+        int z = (int)_currentGOSelection.transform.position.z;
+        int x = (int)_currentGOSelection.transform.position.x;
+        _currentGOSelection = null;
+        _currentGOSelectionPieceLogic = null;
+
+        int new_z = (int)selection.transform.position.z;
+        int new_x = (int)selection.transform.position.x;
+
+        if(selection.GetComponent<Renderer>().material.color == Color.red)
+        {
+            Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
+        }
+
+        chessPiecesGrid.chessPiecesGrid[x, z] = null;
+        chessPiecesGrid.chessPiecesGrid[new_x, new_z] = tempCurrentGOSelection;
+        tempCurrentGOSelection.transform.position = tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z);
+
+        new_z = (int)tempCurrentGOSelection.transform.position.z;
+        new_x = (int)tempCurrentGOSelection.transform.position.x;
+
+        if(tempCurrentGOSelection.CompareTag("White")){
+            if(tempCurrentGOSelection.GetComponent<PieceLogic>()._typeOfChessPiece == 0 && new_z == 7)
+            {
+                Destroy(tempCurrentGOSelection);
+                chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.WhiteQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
+                chessPiecesGrid.chessPiecesGrid[new_x, new_z].transform.parent = chessPiecesGrid.transform;
+            }
+            _lastWhichSide = 0;
+            _whosTurnNow = 1;
+        }
+        else if(tempCurrentGOSelection.CompareTag("Black"))
+        {
+            if(tempCurrentGOSelection.GetComponent<PieceLogic>()._typeOfChessPiece == 0 && new_z == 0)
+            {
+                Destroy(tempCurrentGOSelection);
+                chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.BlackQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
+                chessPiecesGrid.chessPiecesGrid[new_x, new_z].transform.parent = chessPiecesGrid.transform;
+            }
+            _lastWhichSide = 1;
+            _whosTurnNow = 0;
+        }
+        
+        tempCurrentGoSelectionPieceLogic._isSelected = false;
+        tempCurrentGoSelectionPieceLogic._flagForTileGeneration = false;
+
+        CleanTiles();
+        CleanChessPieces();
+    }
+
+    public void CleanChessPieces()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            if(currentPiece.CompareTag("White")){
+                currentPiece.GetComponent<Renderer>().material.color = Color.white;
+            }
+            else if(currentPiece.CompareTag("Black"))
+            {
+                currentPiece.GetComponent<Renderer>().material.color = Color.black;
             }
         }
     }
@@ -235,31 +291,6 @@ public class GameHandler : MonoBehaviour
                 count++;
             }
             count++;
-        }
-    }
-
-    public void CheckGameStatusButton()
-    {
-        for(int i = 0; i < gridCreator._xWidth; i++)
-        {
-            for (int j = 0; j < gridCreator._zWidth; j++)
-            {
-                Debug.Log("x = " + i + " | z = " + j + " | " + gridCreator.chessPiecesGrid[i, j]);
-            }
-        }
-    }
-
-    public void CheckGameStatusButton01()
-    {
-        for(int i = 0; i < gridCreator._xWidth; i++)
-        {
-            for (int j = 0; j < gridCreator._zWidth; j++)
-            {
-                if(gridCreator.chessBoardGrid[i, j].name == "WhiteTile(Clone)" || gridCreator.chessBoardGrid[i, j].name == "BlackTile(Clone)")
-                {
-                    Debug.Log("x = " + i + " | z = " + j + " | " + gridCreator.chessBoardGrid[i, j]);
-                }
-            }
         }
     }
 }

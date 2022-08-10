@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridCreator : MonoBehaviour
 {
-    ChessPiecesHandler chessPiecesHandler;
+    ChessPiecesGrid chessPiecesGrid;
 
     public int _xWidth = 8;
     public int _zWidth = 8;
@@ -17,17 +17,15 @@ public class GridCreator : MonoBehaviour
     public bool normalSpeed = false;
 
     public GameObject[,] chessBoardGrid;
-    public GameObject[,] chessPiecesGrid;
 
     void Start()
     {
-        chessPiecesHandler = GameObject.Find("ChessPiecesHandler").GetComponent<ChessPiecesHandler>();
+        chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
     }
 
     public IEnumerator CreateGrid()
     {
         chessBoardGrid = new GameObject[_xWidth, _zWidth];
-        chessPiecesGrid = new GameObject[_xWidth, _zWidth];
 
         if (gridCellWhiteTilePrefab == null || gridCellBlackTilePrefab == null)
         {
@@ -191,8 +189,8 @@ public class GridCreator : MonoBehaviour
         // }
 
         if(normalSpeed) yield return new WaitForSeconds(1f);
-        if(normalSpeed) yield return chessPiecesHandler.PlaceChessPieces();
-        else            StartCoroutine(chessPiecesHandler.PlaceChessPieces());
+        if(normalSpeed) yield return chessPiecesGrid.PlaceChessPieces();
+        else            StartCoroutine(chessPiecesGrid.PlaceChessPieces());
 
         StopCoroutine(CreateGrid());
     }

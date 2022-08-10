@@ -8,7 +8,7 @@ public class CentreCameraTargetToGrid : MonoBehaviour
 
     void Start()
     {
-        gridCreator = GameObject.Find("Grid").GetComponent<GridCreator>();
+        gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
 
         transform.position = new Vector3(((float)(gridCreator._xWidth - 1) / 2) * gridCreator._gridSpaceSize, 
                                             1, 

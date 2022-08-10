@@ -20,6 +20,12 @@ public class FadeHandler : MonoBehaviour
             case "Black":
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
                 break;
+            case "WhiteTile":
+                this.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                break;
+            case "BlackTile":
+                this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+                break;
             default:
                 break;
         }
@@ -37,6 +43,12 @@ public class FadeHandler : MonoBehaviour
                 _endValue = Color.white;
                 break;
             case "Black":
+                _endValue = Color.black;
+                break;
+            case "WhiteTile":
+                _endValue = Color.white;
+                break;
+            case "BlackTile":
                 _endValue = Color.black;
                 break;
             default:

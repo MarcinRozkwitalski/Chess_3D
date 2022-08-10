@@ -81,7 +81,7 @@ public class PieceLogic : MonoBehaviour
                     case 4:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-
+                        QueenMovement(_whichSide);
                         break;
 
                     case 5:
@@ -854,12 +854,10 @@ public class PieceLogic : MonoBehaviour
         }
     }
 
-    void QueenMovement()
+    void QueenMovement(int _whichSide)
     {
-        for(int i = 0; i < 8; i++)
-        {
-            //bishop + rook
-        }
+        BishopMovement(_whichSide);
+        RookMovement(_whichSide);
     }
 
     void KingMovement()

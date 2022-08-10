@@ -58,15 +58,10 @@ public class GameHandler : MonoBehaviour
             {
                 var selection = hit.transform;
 
-                if(selection)
-                {
-                    HandlePlayer(selection);
-                }
-                else
-                if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
+                if(selection) HandlePlayer(selection);
+                else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
             }
-            else //RayCast hits nothing (false)
-            if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
+            else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection(); //RayCast hits nothing (false)
         }
     }
 
@@ -78,31 +73,31 @@ public class GameHandler : MonoBehaviour
             {
                 if(selection.GetComponent<Renderer>().material.color == Color.red)
                 {
-                    if(Input.GetMouseButtonDown(0))
-                    {
-                        HandlePieceMovement(selection);
-                    }
+                    if(Input.GetMouseButtonDown(0)) HandlePieceMovement(selection);
                 }
-                else 
+                else if(_whosTurnNow == 0 && selection.GetComponent<Renderer>().material.color == Color.black)
                 {
-                    HandleYellowHover(selection);
+                    if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
                 }
+                else if(_whosTurnNow == 1 && selection.GetComponent<Renderer>().material.color == Color.white)
+                {
+                    if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
+                }
+                else HandleYellowHover(selection);
             }
             else if(selection.CompareTag("WhiteTile") || selection.CompareTag("BlackTile"))
             {
                 if(selection.GetComponent<Renderer>().material.color == Color.green)
                 {
-                    if(Input.GetMouseButtonDown(0))
-                    {
-                        HandlePieceMovement(selection);
-                    }
+                    if(Input.GetMouseButtonDown(0)) HandlePieceMovement(selection);
                 }
-                if(selection.GetComponent<Renderer>().material.color == Color.red)
+                else if(selection.GetComponent<Renderer>().material.color == Color.red)
                 {
-                    if(Input.GetMouseButtonDown(0))
-                    {
-                        HandlePieceMovement(selection);
-                    }
+                    if(Input.GetMouseButtonDown(0)) HandlePieceMovement(selection);
+                }
+                else if(selection.GetComponent<Renderer>().material.color == Color.white || selection.GetComponent<Renderer>().material.color == Color.black)
+                {
+                    if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
                 }
             }
             else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection(); 
@@ -130,6 +125,7 @@ public class GameHandler : MonoBehaviour
         {
             Debug.Log("Deselected: " + _currentGOSelection.name);
             CleanTiles();
+            CleanChessPieces();
 
             if(_currentGOSelectionPieceLogic._whichSide == 0)
             {
@@ -156,14 +152,8 @@ public class GameHandler : MonoBehaviour
     {
         if(_currentGOSelection && _currentGOSelectionPieceLogic)
         {
-            if(_currentGOSelectionPieceLogic._whichSide == 0)
-            {
-                _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
-            }
-            else if(_currentGOSelectionPieceLogic._whichSide == 1)
-            {
-                _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
-            }
+            if(_currentGOSelectionPieceLogic._whichSide == 0)       _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
+            else if(_currentGOSelectionPieceLogic._whichSide == 1)  _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
 
             _currentGOSelectionPieceLogic._isSelected = false;
             _currentGOSelectionPieceLogic._flagForTileGeneration = false;
@@ -211,10 +201,7 @@ public class GameHandler : MonoBehaviour
         int new_z = (int)selection.transform.position.z;
         int new_x = (int)selection.transform.position.x;
 
-        if(selection.GetComponent<Renderer>().material.color == Color.red)
-        {
-            Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
-        }
+        if(selection.GetComponent<Renderer>().material.color == Color.red) Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
 
         chessPiecesGrid.chessPiecesGrid[x, z] = null;
         chessPiecesGrid.chessPiecesGrid[new_x, new_z] = tempCurrentGOSelection;
@@ -259,13 +246,8 @@ public class GameHandler : MonoBehaviour
         for(int i = 0; i < howManyPieces; i++)
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
-            if(currentPiece.CompareTag("White")){
-                currentPiece.GetComponent<Renderer>().material.color = Color.white;
-            }
-            else if(currentPiece.CompareTag("Black"))
-            {
-                currentPiece.GetComponent<Renderer>().material.color = Color.black;
-            }
+            if(currentPiece.CompareTag("White"))        currentPiece.GetComponent<Renderer>().material.color = Color.white; 
+            else if(currentPiece.CompareTag("Black")) currentPiece.GetComponent<Renderer>().material.color = Color.black;
         }
     }
 
@@ -279,14 +261,8 @@ public class GameHandler : MonoBehaviour
             {
                 if(gridCreator.chessBoardGrid[x, z].name == "WhiteTile(Clone)" || gridCreator.chessBoardGrid[x, z].name == "BlackTile(Clone)")
                 {
-                    if(count % 2 == 0)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.white;
-                    }
-                    else
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.black;
-                    }
+                    if(count % 2 == 0)  gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.white;
+                    else                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.black;
                 }
                 count++;
             }

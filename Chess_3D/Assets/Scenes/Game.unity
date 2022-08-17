@@ -457,7 +457,7 @@ MonoBehaviour:
     type: 3}
   gridCellBlackTilePrefab: {fileID: 4070615854259705381, guid: 9157136c2258e24408f377b33a2a9397,
     type: 3}
-  normalSpeed: 0
+  normalSpeed: 1
 --- !u!1 &520061794
 GameObject:
   m_ObjectHideFlags: 0

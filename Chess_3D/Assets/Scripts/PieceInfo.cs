@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PieceLogic : MonoBehaviour
+public class PieceInfo : MonoBehaviour
 {
     public GridCreator gridCreator;
     public ChessPiecesGrid chessPiecesGrid;

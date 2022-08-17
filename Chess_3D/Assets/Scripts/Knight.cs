@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Knight : PieceLogic
+public class Knight : PieceInfo
 {
     public void Movement(int _whichSide)
     {

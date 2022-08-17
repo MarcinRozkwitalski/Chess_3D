@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class King : PieceLogic
+public class King : PieceInfo
 {
     public void Movement(int _whichSide)
     {

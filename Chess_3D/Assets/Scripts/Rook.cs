@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rook : PieceLogic
+public class Rook : PieceInfo
 {
     public void Movement(int _whichSide)
     {

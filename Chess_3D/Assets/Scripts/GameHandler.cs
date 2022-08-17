@@ -16,7 +16,7 @@ public class GameHandler : MonoBehaviour
 
     Transform _selection;
     public GameObject _currentGOSelection = null;
-    public PieceLogic _currentGOSelectionPieceLogic = null;
+    public PieceInfo _currentGOSelectionPieceInfo = null;
     public int _lastWhichSide;
 
     Text GameInfoText;
@@ -40,7 +40,7 @@ public class GameHandler : MonoBehaviour
             if(_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
-                var pieceLogicScript = _selection.GetComponent<PieceLogic>();
+                var pieceLogicScript = _selection.GetComponent<PieceInfo>();
 
                 if(pieceLogicScript != null && pieceLogicScript._whichSide == _whosTurnNow)
                 {
@@ -117,8 +117,8 @@ public class GameHandler : MonoBehaviour
         if(_currentGOSelection == null)
         {
             _currentGOSelection = selection.gameObject;
-            _currentGOSelectionPieceLogic = _currentGOSelection.GetComponent<PieceLogic>();
-            _currentGOSelectionPieceLogic._isSelected = true;
+            _currentGOSelectionPieceInfo = _currentGOSelection.GetComponent<PieceInfo>();
+            _currentGOSelectionPieceInfo._isSelected = true;
             _currentGOSelection.GetComponent<Renderer>().material.color = Color.green;
         }
         else if(_currentGOSelection != null)
@@ -127,39 +127,39 @@ public class GameHandler : MonoBehaviour
             CleanTiles();
             CleanChessPieces();
 
-            if(_currentGOSelectionPieceLogic._whichSide == 0)
+            if(_currentGOSelectionPieceInfo._whichSide == 0)
             {
                 _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
                 _lastWhichSide = 0;
             }
-            else if(_currentGOSelectionPieceLogic._whichSide == 1)
+            else if(_currentGOSelectionPieceInfo._whichSide == 1)
             {
                 _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
                 _lastWhichSide = 1;
             }
             
-            _currentGOSelectionPieceLogic._isSelected = false;
-            _currentGOSelectionPieceLogic._flagForTileGeneration = false;
+            _currentGOSelectionPieceInfo._isSelected = false;
+            _currentGOSelectionPieceInfo._flagForTileGeneration = false;
 
             _currentGOSelection = selection.gameObject;
-            _currentGOSelectionPieceLogic = _currentGOSelection.GetComponent<PieceLogic>();
-            _currentGOSelectionPieceLogic._isSelected = true;
+            _currentGOSelectionPieceInfo = _currentGOSelection.GetComponent<PieceInfo>();
+            _currentGOSelectionPieceInfo._isSelected = true;
             _currentGOSelection.GetComponent<Renderer>().material.color = Color.green;
         }
     }
 
     public void ResetCurrentGOSelection()
     {
-        if(_currentGOSelection && _currentGOSelectionPieceLogic)
+        if(_currentGOSelection && _currentGOSelectionPieceInfo)
         {
-            if(_currentGOSelectionPieceLogic._whichSide == 0)       _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
-            else if(_currentGOSelectionPieceLogic._whichSide == 1)  _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
+            if(_currentGOSelectionPieceInfo._whichSide == 0)       _currentGOSelection.GetComponent<Renderer>().material.color = Color.white;
+            else if(_currentGOSelectionPieceInfo._whichSide == 1)  _currentGOSelection.GetComponent<Renderer>().material.color = Color.black;
 
-            _currentGOSelectionPieceLogic._isSelected = false;
-            _currentGOSelectionPieceLogic._flagForTileGeneration = false;
+            _currentGOSelectionPieceInfo._isSelected = false;
+            _currentGOSelectionPieceInfo._flagForTileGeneration = false;
 
             _currentGOSelection = null;
-            _currentGOSelectionPieceLogic = null;
+            _currentGOSelectionPieceInfo = null;
 
             CleanTiles();
             CleanChessPieces();
@@ -169,17 +169,17 @@ public class GameHandler : MonoBehaviour
     public void HandleYellowHover(Transform selection)
     {
         var selectionRenderer = selection.GetComponent<Renderer>();
-        var pieceLogicScript = selection.GetComponent<PieceLogic>();
+        var pieceInfoScript = selection.GetComponent<PieceInfo>();
 
-        if(pieceLogicScript != null && selectionRenderer != null)
+        if(pieceInfoScript != null && selectionRenderer != null)
         {
-            if(_whosTurnNow == 0 && pieceLogicScript._whichSide == 0)
+            if(_whosTurnNow == 0 && pieceInfoScript._whichSide == 0)
             {
                 selectionRenderer.material.color = Color.yellow;
                 if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
             }
 
-            if(_whosTurnNow == 1 && pieceLogicScript._whichSide == 1)
+            if(_whosTurnNow == 1 && pieceInfoScript._whichSide == 1)
             {
                 selectionRenderer.material.color = Color.yellow;
                 if(Input.GetMouseButtonDown(0)) CurrentGOSelection(selection);
@@ -192,11 +192,11 @@ public class GameHandler : MonoBehaviour
     public void HandlePieceMovement(Transform selection)
     {
         GameObject tempCurrentGOSelection = _currentGOSelection;
-        PieceLogic tempCurrentGoSelectionPieceLogic = _currentGOSelectionPieceLogic;
+        PieceInfo tempCurrentGoSelectionPieceInfo = _currentGOSelectionPieceInfo;
         int z = (int)_currentGOSelection.transform.position.z;
         int x = (int)_currentGOSelection.transform.position.x;
         _currentGOSelection = null;
-        _currentGOSelectionPieceLogic = null;
+        _currentGOSelectionPieceInfo = null;
 
         int new_z = (int)selection.transform.position.z;
         int new_x = (int)selection.transform.position.x;
@@ -211,7 +211,7 @@ public class GameHandler : MonoBehaviour
         new_x = (int)tempCurrentGOSelection.transform.position.x;
 
         if(tempCurrentGOSelection.CompareTag("White")){
-            if(tempCurrentGOSelection.GetComponent<PieceLogic>()._typeOfChessPiece == 0 && new_z == 7)
+            if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == 7)
             {
                 Destroy(tempCurrentGOSelection);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.WhiteQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
@@ -222,7 +222,7 @@ public class GameHandler : MonoBehaviour
         }
         else if(tempCurrentGOSelection.CompareTag("Black"))
         {
-            if(tempCurrentGOSelection.GetComponent<PieceLogic>()._typeOfChessPiece == 0 && new_z == 0)
+            if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == 0)
             {
                 Destroy(tempCurrentGOSelection);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.BlackQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
@@ -232,8 +232,8 @@ public class GameHandler : MonoBehaviour
             _whosTurnNow = 0;
         }
         
-        tempCurrentGoSelectionPieceLogic._isSelected = false;
-        tempCurrentGoSelectionPieceLogic._flagForTileGeneration = false;
+        tempCurrentGoSelectionPieceInfo._isSelected = false;
+        tempCurrentGoSelectionPieceInfo._flagForTileGeneration = false;
 
         CleanTiles();
         CleanChessPieces();

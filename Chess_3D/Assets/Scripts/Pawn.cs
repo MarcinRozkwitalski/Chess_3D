@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pawn : PieceLogic
+public class Pawn : PieceInfo
 {
     public void Movement(int _whichSide)
     {

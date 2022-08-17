@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bishop : PieceLogic
+public class Bishop : PieceInfo
 {
     public void Movement(int _whichSide)
     {

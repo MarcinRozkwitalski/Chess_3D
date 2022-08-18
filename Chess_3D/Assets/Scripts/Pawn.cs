@@ -29,7 +29,7 @@ public class Pawn : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
                 {
@@ -41,7 +41,7 @@ public class Pawn : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
                 {
@@ -59,7 +59,7 @@ public class Pawn : PieceInfo
             {
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-                if(gameObject.transform.position.z == 6)
+                if(gameObject.transform.position.z == gridCreator._zWidth - 2)
                 {
                     z--;
                     if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
@@ -72,7 +72,7 @@ public class Pawn : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; z--;
             
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
                 {
@@ -85,7 +85,7 @@ public class Pawn : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; z--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
                 {

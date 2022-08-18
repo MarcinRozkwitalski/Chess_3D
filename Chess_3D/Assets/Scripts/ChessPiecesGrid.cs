@@ -46,7 +46,7 @@ public class ChessPiecesGrid : MonoBehaviour
     {
         chessPiecesGrid = new GameObject[gridCreator._xWidth, gridCreator._zWidth];
 
-        if(gridCreator._xWidth == 8 && gridCreator._zWidth == 8)
+        if(gridCreator._xWidth > 7 && gridCreator._zWidth > 5)
         {
             List<int> defaultWhiteChessPieces = new List<int>();
             List<int> defaultBlackChessPieces = new List<int>();
@@ -69,8 +69,8 @@ public class ChessPiecesGrid : MonoBehaviour
                 Debug.Log("[" + i + "] = " + defaultBlackChessPieces[i] + " < BlackChessPiece");
             }
 
-            yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
-            yield return StartCoroutine(PlaceChessPiecesFromCoordinates(0, 7, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
+            yield return StartCoroutine(PlaceChessPiecesFromCoordinates((gridCreator._xWidth / 2) - 4, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
+            yield return StartCoroutine(PlaceChessPiecesFromCoordinates((gridCreator._xWidth / 2) - 4, gridCreator._zWidth - 1, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
 
             gameHandler._gameHasBeenStarted = true;
             gameHandler._letPlayersChoosePieces = true;
@@ -99,7 +99,7 @@ public class ChessPiecesGrid : MonoBehaviour
 
                     if(i == 1)
                     {
-                        x = 0;
+                        x = (gridCreator._xWidth / 2) - 4;
                         z++;
 
                         for(int j = 8; j < 16; j++)
@@ -129,7 +129,7 @@ public class ChessPiecesGrid : MonoBehaviour
 
                     if(i == 1)
                     {
-                        x = 0;
+                        x = (gridCreator._xWidth / 2) - 4;
                         z--;
                         for(int j = 8; j < 16; j++)
                         {

@@ -211,7 +211,7 @@ public class GameHandler : MonoBehaviour
         new_x = (int)tempCurrentGOSelection.transform.position.x;
 
         if(tempCurrentGOSelection.CompareTag("White")){
-            if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == 7)
+            if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == gridCreator._zWidth - 1)
             {
                 Destroy(tempCurrentGOSelection);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.WhiteQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);

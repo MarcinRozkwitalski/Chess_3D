@@ -11,7 +11,7 @@ public class Knight : PieceInfo
             int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
             z++; z++; x++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -27,7 +27,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z++; z++; x--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -43,7 +43,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z--; z--; x++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -59,7 +59,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z--; z--; x--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -75,7 +75,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; x++; z--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -91,7 +91,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; x++; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -107,7 +107,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; x--; z--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -123,7 +123,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; x--; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -141,7 +141,7 @@ public class Knight : PieceInfo
             int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
             z++; z++; x++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -157,7 +157,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z++; z++; x--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -173,7 +173,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z--; z--; x++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -189,7 +189,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             z--; z--; x--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -205,7 +205,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; x++; z--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -221,7 +221,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x++; x++; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -237,7 +237,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; x--; z--;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
@@ -253,7 +253,7 @@ public class Knight : PieceInfo
             z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; x--; z++;
 
-            if(-1 < z && z < 8 && -1 < x && x < 8)
+            if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {

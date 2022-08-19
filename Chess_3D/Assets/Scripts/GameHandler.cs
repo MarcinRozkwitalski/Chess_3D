@@ -235,8 +235,12 @@ public class GameHandler : MonoBehaviour
         tempCurrentGoSelectionPieceInfo._isSelected = false;
         tempCurrentGoSelectionPieceInfo._flagForTileGeneration = false;
 
+        tempCurrentGOSelection = null;
+
         CleanTiles();
         CleanChessPieces();
+        ResetBeatableTiles();
+        CheckBeatableTiles();
     }
 
     public void CleanChessPieces()
@@ -267,6 +271,29 @@ public class GameHandler : MonoBehaviour
                 count++;
             }
             count++;
+        }
+    }
+
+    public void ResetBeatableTiles()
+    {
+        for (int x = 0; x < gridCreator._xWidth; x++)
+        {
+            for (int z = 0; z < gridCreator._zWidth; z++)
+            {
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffWhite();
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffBlack();
+            }
+        }
+    }
+
+    public void CheckBeatableTiles()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            currentPiece.GetComponent<PieceInfo>().HandleBeatableTiles();
         }
     }
 }

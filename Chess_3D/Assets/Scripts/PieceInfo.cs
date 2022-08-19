@@ -21,7 +21,7 @@ public class PieceInfo : MonoBehaviour
     MeshRenderer _meshRenderer;
     Color _initialColor;
 
-    void Start()
+    void Awake()
     {
         gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
         chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
@@ -129,5 +129,44 @@ public class PieceInfo : MonoBehaviour
             _typeOfChessPiece = 5;
             if(!gameObject.GetComponent<King>()) gameObject.AddComponent<King>();
         }
+    }
+
+    public void HandleBeatableTiles()
+    {
+        if(this._typeOfChessPiece == 0)
+        {
+            gameObject.GetComponent<Pawn>().BeatableTiles(_whichSide);
+        }
+        else if(this._typeOfChessPiece == 1)
+        {
+            gameObject.GetComponent<Knight>().BeatableTiles(_whichSide);
+        }
+        else if(this._typeOfChessPiece == 2)
+        {
+            gameObject.GetComponent<Bishop>().BeatableTiles(_whichSide);
+        }
+        else if(this._typeOfChessPiece == 3)
+        {
+            gameObject.GetComponent<Rook>().BeatableTiles(_whichSide);
+        }
+        else if(this._typeOfChessPiece == 4)
+        {
+            gameObject.GetComponent<Queen>().BeatableTiles(_whichSide);
+        }
+        else if(this._typeOfChessPiece == 5)
+        {
+            gameObject.GetComponent<King>().BeatableTiles(_whichSide);
+        }
+    }
+
+    public void SetTileGreen(int x, int z)
+    {
+        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
+    }
+
+    public void SetTileRed(int x, int z)
+    {
+        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
+        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 }

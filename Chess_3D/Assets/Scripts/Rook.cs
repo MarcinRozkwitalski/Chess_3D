@@ -4,195 +4,131 @@ using UnityEngine;
 
 public class Rook : PieceInfo
 {
+    int x, z;
+
     public void Movement(int _whichSide)
     {
-        if(_whichSide == 0)
-        {
-            int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
+        SetPosition();
 
-            while(true)
+        CheckMovement("z", "+");
+
+        CheckMovement("z", "-");
+
+        CheckMovement("x", "+");
+
+        CheckMovement("x", "-");
+    }
+
+    public void BeatableTiles(int _whichSide)
+    {
+        SetPosition();
+
+        CheckBeatableTiles("z", "+");
+
+        CheckBeatableTiles("z", "-");
+
+        CheckBeatableTiles("x", "+");
+
+        CheckBeatableTiles("x", "-");
+    }
+
+    public void CheckMovement(string var, string ops)
+    {
+        while(true)
+        {
+            if(var == "z" && ops == "+")
             {
                 z++;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "z" && ops == "-")
             {
                 z--;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "x" && ops == "+")
             {
                 x++;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "x" && ops == "-")
             {
                 x--;
+            }
 
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                    break;
                 }
                 else break;
             }
+            else break;
         }
-        else if(_whichSide == 1)
-        {
-            int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
 
-            while(true)
+        SetPosition();
+    }
+
+    public void CheckBeatableTiles(string var, string ops)
+    {
+        while(true)
+        {
+            if(var == "z" && ops == "+")
             {
                 z++;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "z" && ops == "-")
             {
                 z--;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "x" && ops == "+")
             {
                 x++;
-
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
-                {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
-                }
-                else break;
             }
-
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
-
-            while(true)
+            else if(var == "x" && ops == "-")
             {
                 x--;
+            }
 
-                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] == null)
                 {
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                        break;
-                    }
-                    else break;
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
+                }
+                else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] == null)
+                {
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
+                }
+                else if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null)
+                {
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
+                    break;
+                }
+                else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] != null)
+                {
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
+                    break;
                 }
                 else break;
             }
+            else break;
         }
+
+        SetPosition();
+    }
+
+    public void SetPosition()
+    {
+        x = (int)gameObject.transform.position.x;
+        z = (int)gameObject.transform.position.z;
     }
 }

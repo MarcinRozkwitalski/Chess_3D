@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _xWidth: 8
-  _zWidth: 6
+  _zWidth: 8
   _gridSpaceSize: 1
   gridCellWhiteTilePrefab: {fileID: 5617538646738450607, guid: 2b6057a539aaef94fbcd962417d0f3ec,
     type: 3}

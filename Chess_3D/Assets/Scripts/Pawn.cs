@@ -4,95 +4,124 @@ using UnityEngine;
 
 public class Pawn : PieceInfo
 {
+    int x, z;
+
+    int initX, initZ;
+
+    void Start() {
+        initX = (int)gameObject.transform.position.x;
+        initZ = (int)gameObject.transform.position.z;
+    }
+
     public void Movement(int _whichSide)
     {
+        SetPosition();
+
         if(_whichSide == 0)
         {
-            int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
             z++;
+        }
+        else if (_whichSide == 1)
+        {
+            z--;
+        }
 
-            if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+        if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+        {
+            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+
+            if(gameObject.transform.position.z == initZ)
             {
-                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-
-                if(gameObject.transform.position.z == 1)
+                if(_whichSide == 0)
                 {
                     z++;
+                }
+                else if (_whichSide == 1)
+                {
+                    z--;
+                }
 
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
                 }
             }
+        }
 
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
+        SetPosition();
+
+        x--; z++;
+        if(_whichSide == 0) CheckMovement(x, z);
+
+        x++; z++;
+        if(_whichSide == 0) CheckMovement(x, z);
+
+        x--; z--;
+        if(_whichSide == 1) CheckMovement(x, z);
+
+        x++; z--;
+        if(_whichSide == 1) CheckMovement(x, z);
+    }   
+
+    public void BeatableTiles(int _whichSide)
+    {
+        SetPosition();
+
+        if(_whichSide == 0)
+        {
             x--; z++;
-
             if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
-                if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                {
-                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                    chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                }
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
             }
 
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
+            SetPosition();
             x++; z++;
 
             if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
-                if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
-                {
-                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                    chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                }
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
             }
         }
         else if(_whichSide == 1)
         {
-            int z = (int)gameObject.transform.position.z; int x = (int)gameObject.transform.position.x;
-            z--;
-
-            if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-            {
-                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-
-                if(gameObject.transform.position.z == gridCreator._zWidth - 2)
-                {
-                    z--;
-                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-                    {
-                        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.green;
-                    }
-                }
-            }
-            
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
             x--; z--;
-            
+
             if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
-                if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                {
-                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                    chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-
-                }
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
             }
 
-            z = (int)gameObject.transform.position.z; x = (int)gameObject.transform.position.x;
+            SetPosition();
             x++; z--;
 
             if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
-                if(chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
-                {
-                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                    chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
-                }
+                gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
             }
         }
-    }   
+    }
+
+    public void CheckMovement(int x, int z)
+    {
+        if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
+            {
+                gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
+            {
+                gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+            }
+        }
+
+        SetPosition();
+    }
+
+    public void SetPosition()
+    {
+        x = (int)gameObject.transform.position.x;
+        z = (int)gameObject.transform.position.z;
+    }
 }

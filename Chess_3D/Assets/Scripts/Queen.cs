@@ -9,4 +9,10 @@ public class Queen : PieceInfo
         gameObject.GetComponent<Bishop>().Movement(_whichSide);
         gameObject.GetComponent<Rook>().Movement(_whichSide);
     }
+
+    public void BeatableTiles(int _whichSide)
+    {
+        gameObject.GetComponent<Bishop>().BeatableTiles(_whichSide);
+        gameObject.GetComponent<Rook>().BeatableTiles(_whichSide);
+    }
 }

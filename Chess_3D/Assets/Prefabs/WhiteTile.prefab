@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5617538646738450593}
   - component: {fileID: 5617538646738450592}
   - component: {fileID: 7688977093877876752}
+  - component: {fileID: 6442254903818532882}
   m_Layer: 0
   m_Name: WhiteTile
   m_TagString: WhiteTile
@@ -106,5 +107,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c552ace3cf522b4daaef87f2fd82826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6442254903818532882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5617538646738450607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5bf4c6a60cdd942af0e4858c4de646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

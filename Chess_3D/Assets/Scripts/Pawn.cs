@@ -53,11 +53,17 @@ public class Pawn : PieceInfo
         x--; z++;
         if(_whichSide == 0) CheckMovement(x, z);
 
+        SetPosition();
+
         x++; z++;
         if(_whichSide == 0) CheckMovement(x, z);
 
+        SetPosition();
+
         x--; z--;
         if(_whichSide == 1) CheckMovement(x, z);
+
+        SetPosition();
 
         x++; z--;
         if(_whichSide == 1) CheckMovement(x, z);
@@ -115,8 +121,6 @@ public class Pawn : PieceInfo
                 gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
             }
         }
-
-        SetPosition();
     }
 
     public void SetPosition()

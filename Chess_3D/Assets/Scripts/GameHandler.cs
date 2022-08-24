@@ -11,6 +11,8 @@ public class GameHandler : MonoBehaviour
 
     public bool _gameHasBeenStarted = false;
     public bool _letPlayersChoosePieces = false;
+    public bool _whiteIsChecked = false;
+    public bool _blackIsChecked = false;
 
     [SerializeField] public int _whosTurnNow = 0; //0 - white, 1 - black
 
@@ -83,7 +85,10 @@ public class GameHandler : MonoBehaviour
                 {
                     if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection();
                 }
-                else HandleYellowHover(selection);
+                else if(selection.gameObject.GetComponent<PieceInfo>()._canDoMoves)
+                {
+                    HandleYellowHover(selection);
+                } 
             }
             else if(selection.CompareTag("WhiteTile") || selection.CompareTag("BlackTile"))
             {
@@ -102,7 +107,7 @@ public class GameHandler : MonoBehaviour
             }
             else if(Input.GetMouseButtonDown(0)) ResetCurrentGOSelection(); 
         }
-        else if(selection.name != "BlackTile(Clone)" && selection.name != "WhiteTile(Clone)" && selection.name != "Plane" && selection.gameObject != _currentGOSelection)
+        else if(selection.name != "BlackTile(Clone)" && selection.name != "WhiteTile(Clone)" && selection.name != "Plane" && selection.gameObject != _currentGOSelection && selection.gameObject.GetComponent<PieceInfo>()._canDoMoves)
         {
             HandleYellowHover(selection);
         }
@@ -241,6 +246,8 @@ public class GameHandler : MonoBehaviour
         CleanChessPieces();
         ResetBeatableTiles();
         CheckBeatableTiles();
+        CheckMovesForPieces();
+        CheckIfAnyKingIsChecked();
     }
 
     public void CleanChessPieces()
@@ -294,6 +301,44 @@ public class GameHandler : MonoBehaviour
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
             currentPiece.GetComponent<PieceInfo>().HandleBeatableTiles();
+        }
+    }
+
+    public void CheckMovesForPieces()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            currentPiece.GetComponent<PieceInfo>().HandleIfCanDoMoves();
+        }
+    }
+
+    public void CheckIfAnyKingIsChecked()
+    {
+        GameObject whiteKing = GameObject.Find("WhiteKing(Clone)");
+        GameObject blackKing = GameObject.Find("BlackKing(Clone)");
+
+        whiteKing.GetComponent<King>().CheckIfChecked();
+        blackKing.GetComponent<King>().CheckIfChecked();
+
+        if(whiteKing.GetComponent<King>()._isChecked == true)
+        {
+            _whiteIsChecked = true;
+        }
+        else if(GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
+        {
+            _whiteIsChecked = false;
+        }
+
+        if(GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
+        {
+            _blackIsChecked = true;
+        }
+        else if(GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
+        {
+            _blackIsChecked = false;
         }
     }
 }

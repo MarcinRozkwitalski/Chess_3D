@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Queen : PieceInfo
 {
-    public void Movement(int _whichSide)
+    public void Movement()
     {
-        gameObject.GetComponent<Bishop>().Movement(_whichSide);
-        gameObject.GetComponent<Rook>().Movement(_whichSide);
+        gameObject.GetComponent<Bishop>().Movement();
+        gameObject.GetComponent<Rook>().Movement();
     }
 
-    public void BeatableTiles(int _whichSide)
+    public void BeatableTiles()
     {
-        gameObject.GetComponent<Bishop>().BeatableTiles(_whichSide);
-        gameObject.GetComponent<Rook>().BeatableTiles(_whichSide);
+        gameObject.GetComponent<Bishop>().BeatableTiles();
+        gameObject.GetComponent<Rook>().BeatableTiles();
+    }
+
+    public void CheckIfCanDoMoves()
+    {
+        gameObject.GetComponent<Bishop>().CheckIfCanDoMoves();
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        gameObject.GetComponent<Rook>().CheckIfCanDoMoves();
     }
 }

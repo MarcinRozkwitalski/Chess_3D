@@ -6,9 +6,7 @@ public class King : PieceInfo
 {
     public bool _isChecked = false;
 
-    int x, z;
-
-    public void Movement(int _whichSide)
+    public void Movement()
     {
         SetPosition();
 
@@ -37,7 +35,7 @@ public class King : PieceInfo
         CheckMovement(x, z);
     }
 
-    public void BeatableTiles(int _whichSide)
+    public void BeatableTiles()
     {
         SetPosition();
 
@@ -108,9 +106,93 @@ public class King : PieceInfo
         SetPosition();
     }
 
-    public void SetPosition()
+    public void CheckIfCanDoMovement(int x, int z)
     {
-        x = (int)gameObject.transform.position.x;
-        z = (int)gameObject.transform.position.z; 
+        if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 0 && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack)
+            {
+                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 1 && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite)
+            {
+                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack)
+            {
+                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite)
+            {
+                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+            }
+        }
+    }
+
+    public void CheckIfCanDoMoves()
+    {
+        gameObject.GetComponent<PieceInfo>()._canDoMoves = false;
+
+        SetPosition();
+        z++; x++;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        z++; x--;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        z--; x--;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        z--; x++;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        z++;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        z--;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        x++;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+
+        SetPosition();
+        x--;
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement(x, z);
+    }
+
+    public void CheckIfChecked()
+    {
+        _isChecked = false;
+
+        SetPosition();
+
+        if(_whichSide == 0)
+        {
+            if(gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == true)
+            {
+                _isChecked = true;
+            }
+        }
+        else if(_whichSide == 1)
+        {
+            if(gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == true)
+            {
+                _isChecked = true;
+            }
+        }
     }
 }

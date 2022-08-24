@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Bishop : PieceInfo
 {
-    int x, z;
-
-    public void Movement(int _whichSide)
+    public void Movement()
     {
         SetPosition();
 
@@ -19,7 +17,7 @@ public class Bishop : PieceInfo
         CheckMovement("-", "+"); //x, z
     }
 
-    public void BeatableTiles(int _whichSide)
+    public void BeatableTiles()
     {
         SetPosition();
 
@@ -134,9 +132,72 @@ public class Bishop : PieceInfo
         SetPosition();
     }
 
-    public void SetPosition()
+    public void CheckIfCanDoMovement(string ops1, string ops2)
     {
-        x = (int)gameObject.transform.position.x;
-        z = (int)gameObject.transform.position.z; 
+        while(true)
+        {
+            if(ops1 == "+" && ops2 == "+")
+            {
+                x++;
+                z++;
+            }
+            else if(ops1 == "+" && ops2 == "-")
+            {
+                x++;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "-")
+            {
+                x--;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "+")
+            {
+                x--;
+                z++;
+            }
+
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+                {
+                    gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
+                {
+                    gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
+                {
+                    gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                    break;
+                }
+                else break;
+            }
+            else break;
+        }
+
+        SetPosition();
+    }
+
+    public void CheckIfCanDoMoves()
+    {
+        gameObject.GetComponent<PieceInfo>()._canDoMoves = false;
+
+        SetPosition();
+        
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement("+", "+"); //x, z
+
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement("+", "-"); //x, z
+
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement("-", "-"); //x, z
+
+        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        CheckIfCanDoMovement("-", "+"); //x, z
     }
 }

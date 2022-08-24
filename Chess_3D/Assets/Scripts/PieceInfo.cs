@@ -14,9 +14,15 @@ public class PieceInfo : MonoBehaviour
 
     [SerializeField] public int _whichSide; // 0 - white, 1 - black
 
+    [SerializeField] public bool _canDoMoves = false;
+
+    [SerializeField] public bool _isCheckingEnemyKing = false;
+
     [SerializeField] public bool _isSelected = false;
 
     [SerializeField] public bool _flagForTileGeneration = false;
+
+    protected int x, z;
 
     MeshRenderer _meshRenderer;
     Color _initialColor;
@@ -62,31 +68,31 @@ public class PieceInfo : MonoBehaviour
                     case 1:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-                        gameObject.GetComponent<Knight>().Movement(_whichSide);
+                        gameObject.GetComponent<Knight>().Movement();
                         break;
 
                     case 2:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-                        gameObject.GetComponent<Bishop>().Movement(_whichSide);
+                        gameObject.GetComponent<Bishop>().Movement();
                         break;
 
                     case 3:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-                        gameObject.GetComponent<Rook>().Movement(_whichSide);
+                        gameObject.GetComponent<Rook>().Movement();
                         break;
 
                     case 4:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-                        gameObject.GetComponent<Queen>().Movement(_whichSide);
+                        gameObject.GetComponent<Queen>().Movement();
                         break;
 
                     case 5:
                         Debug.Log(_nameOfChessPiece + " selected");
                         Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
-                        gameObject.GetComponent<King>().Movement(_whichSide);
+                        gameObject.GetComponent<King>().Movement();
                         break;
                 }
             }
@@ -135,27 +141,55 @@ public class PieceInfo : MonoBehaviour
     {
         if(this._typeOfChessPiece == 0)
         {
-            gameObject.GetComponent<Pawn>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<Pawn>().BeatableTiles();
         }
         else if(this._typeOfChessPiece == 1)
         {
-            gameObject.GetComponent<Knight>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<Knight>().BeatableTiles();
         }
         else if(this._typeOfChessPiece == 2)
         {
-            gameObject.GetComponent<Bishop>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<Bishop>().BeatableTiles();
         }
         else if(this._typeOfChessPiece == 3)
         {
-            gameObject.GetComponent<Rook>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<Rook>().BeatableTiles();
         }
         else if(this._typeOfChessPiece == 4)
         {
-            gameObject.GetComponent<Queen>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<Queen>().BeatableTiles();
         }
         else if(this._typeOfChessPiece == 5)
         {
-            gameObject.GetComponent<King>().BeatableTiles(_whichSide);
+            gameObject.GetComponent<King>().BeatableTiles();
+        }
+    }
+
+    public void HandleIfCanDoMoves()
+    {
+        if(this._typeOfChessPiece == 0)
+        {
+            gameObject.GetComponent<Pawn>().CheckIfCanDoMoves();
+        }
+        else if(this._typeOfChessPiece == 1)
+        {
+            gameObject.GetComponent<Knight>().CheckIfCanDoMoves();
+        }
+        else if(this._typeOfChessPiece == 2)
+        {
+            gameObject.GetComponent<Bishop>().CheckIfCanDoMoves();
+        }
+        else if(this._typeOfChessPiece == 3)
+        {
+            gameObject.GetComponent<Rook>().CheckIfCanDoMoves();
+        }
+        else if(this._typeOfChessPiece == 4)
+        {
+            gameObject.GetComponent<Queen>().CheckIfCanDoMoves();
+        }
+        else if(this._typeOfChessPiece == 5)
+        {
+            gameObject.GetComponent<King>().CheckIfCanDoMoves();
         }
     }
 
@@ -168,5 +202,11 @@ public class PieceInfo : MonoBehaviour
     {
         gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
         chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    public void SetPosition()
+    {
+        x = (int)gameObject.transform.position.x;
+        z = (int)gameObject.transform.position.z;
     }
 }

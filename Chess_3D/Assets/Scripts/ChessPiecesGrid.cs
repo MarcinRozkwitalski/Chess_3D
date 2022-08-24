@@ -74,6 +74,8 @@ public class ChessPiecesGrid : MonoBehaviour
 
             gameHandler._gameHasBeenStarted = true;
             gameHandler._letPlayersChoosePieces = true;
+
+            gameHandler.CheckMovesForPieces();
         }
 
         yield return null;

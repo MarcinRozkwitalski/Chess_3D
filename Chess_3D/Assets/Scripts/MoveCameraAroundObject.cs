@@ -8,6 +8,7 @@ public class MoveCameraAroundObject : MonoBehaviour
 
     public Vector3 targetObjectNextPosition;
     float _time;
+    public bool _moveTarget = false;
     private float _rotationX = 20f;
     private float _rotationY;
 
@@ -29,11 +30,19 @@ public class MoveCameraAroundObject : MonoBehaviour
 
             if(Physics.Raycast (Camera.main.transform.position, direction, out hit, 100f))
             {
-                targetObjectNextPosition = new Vector3(hit.point.x, 0.11f, hit.point.z);
+                targetObjectNextPosition = new Vector3(hit.point.x, 1f, hit.point.z);
+                _moveTarget = true;
             }
         }
 
-        _target.transform.position = Vector3.MoveTowards(_target.transform.position, targetObjectNextPosition, 10f * Time.deltaTime);
+        if(_moveTarget)
+        {
+            _target.transform.position = Vector3.MoveTowards(_target.transform.position, targetObjectNextPosition, 10f * Time.deltaTime);
+            if(_target.transform.position == targetObjectNextPosition)
+            {
+                _moveTarget = false;
+            }
+        }
 
         if(Input.GetMouseButton(1))
         {

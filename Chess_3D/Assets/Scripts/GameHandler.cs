@@ -340,5 +340,12 @@ public class GameHandler : MonoBehaviour
         {
             _blackIsChecked = false;
         }
+
+        if(_whiteIsChecked || _blackIsChecked)
+        {
+            Debug.Log("jest szach!");
+        }
+
+        
     }
 }

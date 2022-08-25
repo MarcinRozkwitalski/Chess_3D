@@ -278,6 +278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameHasBeenStarted: 0
   _letPlayersChoosePieces: 0
+  _whiteIsChecked: 0
+  _blackIsChecked: 0
   _whosTurnNow: 0
   _currentGOSelection: {fileID: 0}
   _currentGOSelectionPieceInfo: {fileID: 0}

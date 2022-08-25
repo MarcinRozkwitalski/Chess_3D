@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAroundObject : MonoBehaviour
+public class MoveCameraAroundObject : MonoBehaviour
 {
     [SerializeField] private float _mouseSensitivity = 3.0f;
 
+    public Vector3 targetObjectNextPosition;
+    float _time;
     private float _rotationX = 20f;
     private float _rotationY;
+
+    RaycastHit hit;
     
     [SerializeField] private Transform _target;
 
@@ -17,6 +21,19 @@ public class MoveAroundObject : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * _mouseSensitivity;
+
+        if(Input.GetMouseButtonDown(2))
+        {
+            Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 100f));
+            Vector3 direction = worldMousePosition - Camera.main.transform.position;
+
+            if(Physics.Raycast (Camera.main.transform.position, direction, out hit, 100f))
+            {
+                targetObjectNextPosition = new Vector3(hit.point.x, 0.11f, hit.point.z);
+            }
+        }
+
+        _target.transform.position = Vector3.MoveTowards(_target.transform.position, targetObjectNextPosition, 10f * Time.deltaTime);
 
         if(Input.GetMouseButton(1))
         {

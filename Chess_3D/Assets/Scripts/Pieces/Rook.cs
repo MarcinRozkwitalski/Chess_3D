@@ -113,6 +113,14 @@ public class Rook : PieceInfo
                 {
                     gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
                 }
+                else if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
+                {
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
+                }
+                else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
+                {
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
+                }
                 else if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null)
                 {
                     gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
@@ -213,7 +221,7 @@ public class Rook : PieceInfo
                 {
                     break;
                 }
-                
+
                 if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
                 {
                     if(!defendingPiece)

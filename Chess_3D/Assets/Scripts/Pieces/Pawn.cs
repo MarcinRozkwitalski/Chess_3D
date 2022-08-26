@@ -15,9 +15,17 @@ public class Pawn : PieceInfo
     {
         SetPosition();
 
-        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //która strona
+            //check if this piece can beat checking ONE piece
+        }
+        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
+        {
+            //check if this piece can beat checking ONE piece
+        }
+        else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            //która strona itd
         }
         else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {

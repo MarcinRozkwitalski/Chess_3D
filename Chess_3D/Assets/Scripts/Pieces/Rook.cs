@@ -8,9 +8,17 @@ public class Rook : PieceInfo
     {
         SetPosition();
 
-        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //która strona
+            //check if this piece can beat checking ONE piece
+        }
+        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
+        {
+            //check if this piece can beat checking ONE piece
+        }
+        else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            //która strona itd
         }
         else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
@@ -119,7 +127,7 @@ public class Rook : PieceInfo
                 }
                 else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
                 {
-                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnWhite();
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
                 }
                 else if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null)
                 {

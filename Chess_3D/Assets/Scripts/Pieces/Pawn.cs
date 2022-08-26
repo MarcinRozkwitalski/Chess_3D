@@ -15,56 +15,63 @@ public class Pawn : PieceInfo
     {
         SetPosition();
 
-        if(_whichSide == 0)
+        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
-            z++;
+            //która strona
         }
-        else if (_whichSide == 1)
+        else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
-            z--;
-        }
-
-        if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
-        {
-            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
-
-            if(gameObject.transform.position.z == initZ)
+            if(_whichSide == 0)
             {
-                if(_whichSide == 0)
-                {
-                    z++;
-                }
-                else if (_whichSide == 1)
-                {
-                    z--;
-                }
+                z++;
+            }
+            else if (_whichSide == 1)
+            {
+                z--;
+            }
 
-                if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+            {
+                gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+
+                if(gameObject.transform.position.z == initZ)
                 {
-                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                    if(_whichSide == 0)
+                    {
+                        z++;
+                    }
+                    else if (_whichSide == 1)
+                    {
+                        z--;
+                    }
+
+                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null)
+                    {
+                        gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                    }
                 }
             }
+
+            SetPosition();
+
+            x--; z++;
+            if(_whichSide == 0) CheckMovement(x, z);
+
+            SetPosition();
+
+            x++; z++;
+            if(_whichSide == 0) CheckMovement(x, z);
+
+            SetPosition();
+
+            x--; z--;
+            if(_whichSide == 1) CheckMovement(x, z);
+
+            SetPosition();
+
+            x++; z--;
+            if(_whichSide == 1) CheckMovement(x, z);
         }
-
-        SetPosition();
-
-        x--; z++;
-        if(_whichSide == 0) CheckMovement(x, z);
-
-        SetPosition();
-
-        x++; z++;
-        if(_whichSide == 0) CheckMovement(x, z);
-
-        SetPosition();
-
-        x--; z--;
-        if(_whichSide == 1) CheckMovement(x, z);
-
-        SetPosition();
-
-        x++; z--;
-        if(_whichSide == 1) CheckMovement(x, z);
     }   
 
     public void BeatableTiles()

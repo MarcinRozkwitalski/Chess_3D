@@ -8,13 +8,20 @@ public class Bishop : PieceInfo
     {
         SetPosition();
 
-        CheckMovement("+", "+"); //x, z
+        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            //która strona
+        }
+        else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            CheckMovement("+", "+"); //x, z
 
-        CheckMovement("+", "-"); //x, z
+            CheckMovement("+", "-"); //x, z
 
-        CheckMovement("-", "-"); //x, z
+            CheckMovement("-", "-"); //x, z
 
-        CheckMovement("-", "+"); //x, z
+            CheckMovement("-", "+"); //x, z
+        }
     }
 
     public void BeatableTiles()
@@ -182,6 +189,121 @@ public class Bishop : PieceInfo
         SetPosition();
     }
 
+    public void CheckForPieceDefendingKing(string ops1, string ops2)
+    {
+        int howManyPieces = 0;
+        bool defendingPiece = false;
+        int xDefPiecePos = 0;
+        int zDefPiecePos = 0;
+
+        while(true)
+        {
+            if(ops1 == "+" && ops2 == "+")
+            {
+                x++;
+                z++;
+            }
+            else if(ops1 == "+" && ops2 == "-")
+            {
+                x++;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "-")
+            {
+                x--;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "+")
+            {
+                x--;
+                z++;
+            }
+
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
+                {
+                    if(!defendingPiece)
+                    {
+                        defendingPiece = true;
+                        xDefPiecePos = x;
+                        zDefPiecePos = z;
+                    }
+                    howManyPieces++;
+                }
+                else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
+                {
+                    if(!defendingPiece)
+                    {
+                        defendingPiece = true;
+                        xDefPiecePos = x;
+                        zDefPiecePos = z;
+                    }
+                    howManyPieces++;
+                }
+
+                if(howManyPieces > 2)
+                {
+                    break;
+                }
+
+                if(howManyPieces > 1)
+                {
+                    if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
+                    {
+                        chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._isDefendingKing = true;
+
+                        if(ops1 == "+" && ops2 == "+")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x+z+";
+                        }
+                        else if(ops1 == "+" && ops2 == "-")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x+z-";
+                        }
+                        else if(ops1 == "-" && ops2 == "-")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x-z-";
+                        }
+                        else if(ops1 == "-" && ops2 == "+")
+                        {                       
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x-z+";
+                        }
+                        gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece = true;
+                        break;
+                    }
+                    else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
+                    {
+                        chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._isDefendingKing = true;
+
+                        if(ops1 == "+" && ops2 == "+")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x+z+";
+                        }
+                        else if(ops1 == "+" && ops2 == "-")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x+z-";
+                        }
+                        else if(ops1 == "-" && ops2 == "-")
+                        {
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x-z-";
+                        }
+                        else if(ops1 == "-" && ops2 == "+")
+                        {                       
+                            chessPiecesGrid.chessPiecesGrid[xDefPiecePos, zDefPiecePos].GetComponent<PieceInfo>()._attackingPieceDirection = "x-z+";
+                        }
+                        gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece = true;
+                        break;
+                    }
+                    break;
+                }
+            }
+            else break;
+        }
+
+        SetPosition();
+    }
+
     public void CheckIfCanDoMoves()
     {
         gameObject.GetComponent<PieceInfo>()._canDoMoves = false;
@@ -199,5 +321,25 @@ public class Bishop : PieceInfo
 
         if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         CheckIfCanDoMovement("-", "+"); //x, z
+    }
+
+    public void IterateForDefendingPieces()
+    {
+        if(!gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece)
+        {
+            CheckForPieceDefendingKing("+", "+"); //x, z
+        }
+        if(!gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece)
+        {
+            CheckForPieceDefendingKing("+", "-"); //x, z
+        }
+        if(!gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece)
+        {
+            CheckForPieceDefendingKing("-", "+"); //x, z
+        }
+        if(!gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece)
+        {
+            CheckForPieceDefendingKing("-", "-"); //x, z
+        }
     }
 }

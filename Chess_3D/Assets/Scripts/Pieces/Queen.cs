@@ -6,8 +6,15 @@ public class Queen : PieceInfo
 {
     public void Movement()
     {
-        gameObject.GetComponent<Bishop>().Movement();
-        gameObject.GetComponent<Rook>().Movement();
+        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            //która strona
+        }
+        else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            gameObject.GetComponent<Bishop>().Movement();
+            gameObject.GetComponent<Rook>().Movement();
+        }
     }
 
     public void BeatableTiles()
@@ -19,7 +26,14 @@ public class Queen : PieceInfo
     public void CheckIfCanDoMoves()
     {
         gameObject.GetComponent<Bishop>().CheckIfCanDoMoves();
-        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        if(!gameObject.GetComponent<PieceInfo>()._canDoMoves)
         gameObject.GetComponent<Rook>().CheckIfCanDoMoves();
+    }
+
+    public void IterateForDefendingPieces()
+    {
+        gameObject.GetComponent<Bishop>().IterateForDefendingPieces();
+        if(!gameObject.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece)
+        gameObject.GetComponent<Rook>().IterateForDefendingPieces();
     }
 }

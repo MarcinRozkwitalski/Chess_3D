@@ -247,6 +247,7 @@ public class GameHandler : MonoBehaviour
         ResetBeatableTiles();
         CheckBeatableTiles();
         CheckMovesForPieces();
+        CheckIfAnyPiecesAreDefendingTheirKings();
         CheckIfAnyKingIsChecked();
     }
 
@@ -315,6 +316,41 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public void CheckIfAnyPiecesAreDefendingTheirKings()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            currentPiece.GetComponent<PieceInfo>()._isDefendingKing = false;
+            currentPiece.GetComponent<PieceInfo>()._attackingPieceDirection = "";
+        }
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            if(currentPiece.GetComponent<Queen>() || currentPiece.GetComponent<Bishop>() || currentPiece.GetComponent<Rook>())
+            {
+                if(currentPiece.GetComponent<Queen>() && currentPiece.GetComponent<Bishop>() && currentPiece.GetComponent<Rook>())
+                {
+                    currentPiece.GetComponent<Queen>().IterateForDefendingPieces();
+                    currentPiece.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece = false;
+                }
+                else if(currentPiece.GetComponent<Bishop>() && !currentPiece.GetComponent<Queen>())
+                {
+                    currentPiece.GetComponent<Bishop>().IterateForDefendingPieces();
+                    currentPiece.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece = false;
+                }
+                else if(currentPiece.GetComponent<Rook>() && !currentPiece.GetComponent<Queen>())
+                {
+                    currentPiece.GetComponent<Rook>().IterateForDefendingPieces();
+                    currentPiece.GetComponent<PieceInfo>()._flagForFoundedDefendingPiece = false;
+                }
+            }
+        }
+    }
+
     public void CheckIfAnyKingIsChecked()
     {
         GameObject whiteKing = GameObject.Find("WhiteKing(Clone)");
@@ -327,16 +363,16 @@ public class GameHandler : MonoBehaviour
         {
             _whiteIsChecked = true;
         }
-        else if(GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
+        else if(whiteKing.GetComponent<King>()._isChecked == false)
         {
             _whiteIsChecked = false;
         }
 
-        if(GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
+        if(blackKing.GetComponent<King>()._isChecked == true)
         {
             _blackIsChecked = true;
         }
-        else if(GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
+        else if(blackKing.GetComponent<King>()._isChecked == false)
         {
             _blackIsChecked = false;
         }

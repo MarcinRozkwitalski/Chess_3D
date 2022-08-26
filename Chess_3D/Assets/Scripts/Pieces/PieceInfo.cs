@@ -14,13 +14,19 @@ public class PieceInfo : MonoBehaviour
 
     [SerializeField] public int _whichSide; // 0 - white, 1 - black
 
-    [SerializeField] public bool _canDoMoves = false;
+    [SerializeField] public bool _canDoMoves;
 
-    [SerializeField] public bool _isCheckingEnemyKing = false;
+    [SerializeField] public bool _isCheckingEnemyKing;
 
-    [SerializeField] public bool _isSelected = false;
+    [SerializeField] public bool _isDefendingKing;
 
-    [SerializeField] public bool _flagForTileGeneration = false;
+    [SerializeField] public string _attackingPieceDirection;
+
+    [SerializeField] public bool _flagForFoundedDefendingPiece;
+
+    [SerializeField] public bool _isSelected;
+
+    [SerializeField] public bool _flagForTileGeneration;
 
     protected int x, z;
 

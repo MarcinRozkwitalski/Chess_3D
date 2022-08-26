@@ -8,29 +8,36 @@ public class Knight : PieceInfo
     {
         SetPosition();
 
-        z++; z++; x++;
-        CheckMovement(x, z);
+        if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            //która strona
+        }
+        else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        {
+            z++; z++; x++;
+            CheckMovement(x, z);
 
-        z++; z++; x--;
-        CheckMovement(x, z);
+            z++; z++; x--;
+            CheckMovement(x, z);
 
-        z--; z--; x++;
-        CheckMovement(x, z);
+            z--; z--; x++;
+            CheckMovement(x, z);
 
-        z--; z--; x--;
-        CheckMovement(x, z);
+            z--; z--; x--;
+            CheckMovement(x, z);
 
-        x++; x++; z--;
-        CheckMovement(x, z);
+            x++; x++; z--;
+            CheckMovement(x, z);
 
-        x++; x++; z++;
-        CheckMovement(x, z);
+            x++; x++; z++;
+            CheckMovement(x, z);
 
-        x--; x--; z--;
-        CheckMovement(x, z);
+            x--; x--; z--;
+            CheckMovement(x, z);
 
-        x--; x--; z++;
-        CheckMovement(x, z);
+            x--; x--; z++;
+            CheckMovement(x, z);
+        }
     }
 
     public void BeatableTiles()

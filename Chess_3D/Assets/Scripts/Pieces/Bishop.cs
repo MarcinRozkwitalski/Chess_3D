@@ -221,6 +221,15 @@ public class Bishop : PieceInfo
 
             if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
             {
+                if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White"))
+                {
+                    break;
+                }
+                else if(_whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
+                {
+                    break;
+                }
+
                 if(_whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z] != null && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black"))
                 {
                     if(!defendingPiece)

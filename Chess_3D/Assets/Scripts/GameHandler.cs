@@ -14,6 +14,9 @@ public class GameHandler : MonoBehaviour
     public bool _whiteIsChecked = false;
     public bool _blackIsChecked = false;
 
+    public int _amountOfWhitePiecesCheckingBlackKing = 0;
+    public int _amountOfBlackPiecesCheckingWhiteKing = 0;
+
     [SerializeField] public int _whosTurnNow = 0; //0 - white, 1 - black
 
     Transform _selection;
@@ -248,6 +251,8 @@ public class GameHandler : MonoBehaviour
         CheckBeatableTiles();
         CheckMovesForPieces();
         CheckIfAnyPiecesAreDefendingTheirKings();
+        CheckIfAnyPieceIsCheckingEnemyKing();
+        CheckAmountOfPiecesCheckingEnemyKing();
         CheckIfAnyKingIsChecked();
     }
 
@@ -351,6 +356,81 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public void CheckIfAnyPieceIsCheckingEnemyKing()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            if(!currentPiece.GetComponent<King>())
+            {
+                if(currentPiece.GetComponent<Pawn>())
+                {
+                    currentPiece.GetComponent<Pawn>().CheckForCheckIfIsCheckingEnemyKing();
+                }
+                else if(currentPiece.GetComponent<Knight>())
+                {
+                    currentPiece.GetComponent<Knight>().CheckForCheckIfIsCheckingEnemyKing();
+                }
+                else if(currentPiece.GetComponent<Bishop>() && !currentPiece.GetComponent<Queen>())
+                {
+                    currentPiece.GetComponent<Bishop>().CheckForCheckIfIsCheckingEnemyKing();
+                }
+                else if(currentPiece.GetComponent<Rook>() && !currentPiece.GetComponent<Queen>())
+                {
+                    currentPiece.GetComponent<Rook>().CheckForCheckIfIsCheckingEnemyKing();
+                }
+                else if(currentPiece.GetComponent<Queen>() && currentPiece.GetComponent<Bishop>() && currentPiece.GetComponent<Rook>())
+                {
+                    currentPiece.GetComponent<Queen>().CheckForCheckIfIsCheckingEnemyKing();
+                }
+            }
+        }
+    }
+
+    public void CheckAmountOfPiecesCheckingEnemyKing()
+    {
+        _amountOfWhitePiecesCheckingBlackKing = 0;
+        _amountOfBlackPiecesCheckingWhiteKing = 0;
+
+        List<GameObject> _whitePiecesCheckingBlackKing = new List<GameObject>();
+        List<GameObject> _blackPiecesCheckingWhiteKing = new List<GameObject>();
+
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        for(int i = 0; i < howManyPieces; i++)
+        {
+            GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            if(currentPiece.GetComponent<PieceInfo>()._isCheckingEnemyKing && currentPiece.CompareTag("White"))
+            {
+                _amountOfWhitePiecesCheckingBlackKing++;
+                _whitePiecesCheckingBlackKing.Add(currentPiece);
+            }
+            else if(currentPiece.GetComponent<PieceInfo>()._isCheckingEnemyKing && currentPiece.CompareTag("Black"))
+            {
+                _amountOfBlackPiecesCheckingWhiteKing++;
+                _blackPiecesCheckingWhiteKing.Add(currentPiece);
+            }
+        }
+
+        
+
+        if(_amountOfWhitePiecesCheckingBlackKing > 0)
+        {
+            for(int i = 0; i < _whitePiecesCheckingBlackKing.Count; i++) {
+                Debug.Log("[" + i + "] = " + _whitePiecesCheckingBlackKing[i] + " < WhitePiecesChecking");
+            }
+        }
+        
+        if(_amountOfBlackPiecesCheckingWhiteKing > 0)
+        {
+            for(int i = 0; i < _blackPiecesCheckingWhiteKing.Count; i++) {
+                Debug.Log("[" + i + "] = " + _blackPiecesCheckingWhiteKing[i] + " < WhitePiecesChecking");
+            }
+        }
+    }
+
     public void CheckIfAnyKingIsChecked()
     {
         GameObject whiteKing = GameObject.Find("WhiteKing(Clone)");
@@ -379,9 +459,7 @@ public class GameHandler : MonoBehaviour
 
         if(_whiteIsChecked || _blackIsChecked)
         {
-            Debug.Log("jest szach!");
+            
         }
-
-        
     }
 }

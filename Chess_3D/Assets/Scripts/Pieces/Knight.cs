@@ -109,6 +109,23 @@ public class Knight : PieceInfo
         SetPosition();
     }
 
+    public void CheckIfIsCheckingEnemyKing(int x, int z)
+    {
+        if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
+            {
+                gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
+            {
+                gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+            }
+        }
+        
+        SetPosition();
+    }
+
     public void CheckIfCanDoMovement(int x, int z)
     {
         if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
@@ -128,6 +145,45 @@ public class Knight : PieceInfo
         }
         
         SetPosition();
+    }
+
+    public void CheckForCheckIfIsCheckingEnemyKing()
+    {
+        gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = false;
+
+        SetPosition();
+
+        z++; z++; x++;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        z++; z++; x--;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        z--; z--; x++;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        z--; z--; x--;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        x++; x++; z--;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        x++; x++; z++;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        x--; x--; z--;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        x--; x--; z++;
+        if(gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
     }
 
     public void CheckIfCanDoMoves()

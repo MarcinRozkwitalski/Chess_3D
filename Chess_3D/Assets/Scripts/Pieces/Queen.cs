@@ -38,6 +38,13 @@ public class Queen : PieceInfo
         gameObject.GetComponent<Rook>().CheckIfCanDoMoves();
     }
 
+    public void CheckForCheckIfIsCheckingEnemyKing()
+    {
+        gameObject.GetComponent<Bishop>().CheckForCheckIfIsCheckingEnemyKing();
+        if(!gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing)
+        gameObject.GetComponent<Rook>().CheckForCheckIfIsCheckingEnemyKing();
+    }
+
     public void IterateForDefendingPieces()
     {
         gameObject.GetComponent<Bishop>().IterateForDefendingPieces();

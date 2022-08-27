@@ -17,7 +17,8 @@ public class Pawn : PieceInfo
 
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            //check if there's only one piece who is checking the king and if so, if this piece can beat the checking piece
+            //or if it can "block" the line of checking
         }
         else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
         {
@@ -151,6 +152,21 @@ public class Pawn : PieceInfo
         }
     }
 
+    public void CheckIfIsCheckingEnemyKing(int x, int z)
+    {
+        if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
+            {
+                gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
+            {
+                gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+            }
+        }
+    }
+
     public void CheckIfCanDoMoves()
     {
         gameObject.GetComponent<PieceInfo>()._canDoMoves = false;
@@ -190,5 +206,41 @@ public class Pawn : PieceInfo
         x++; z--;
         if(_whichSide == 1 && gameObject.GetComponent<PieceInfo>()._canDoMoves == false) 
         CheckIfCanDoMovement(x, z);
+    }
+
+    public void CheckForCheckIfIsCheckingEnemyKing()
+    {
+        gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = false;
+
+        SetPosition();
+
+        if(_whichSide == 0)
+        {
+            z++;
+        }
+        else if (_whichSide == 1)
+        {
+            z--;
+        }
+
+        SetPosition();
+        x--; z++;
+        if(_whichSide == 0 && gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        SetPosition();
+        x++; z++;
+        if(_whichSide == 0 && gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false)
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        SetPosition();
+        x--; z--;
+        if(_whichSide == 1 && gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false) 
+        CheckIfIsCheckingEnemyKing(x, z);
+
+        SetPosition();
+        x++; z--;
+        if(_whichSide == 1 && gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing == false) 
+        CheckIfIsCheckingEnemyKing(x, z);
     }
 }

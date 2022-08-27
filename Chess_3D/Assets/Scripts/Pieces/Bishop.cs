@@ -329,23 +329,90 @@ public class Bishop : PieceInfo
         SetPosition();
     }
 
+    public void CheckIfIsCheckingEnemyKing(string ops1, string ops2)
+    {
+        while(true)
+        {
+            if(ops1 == "+" && ops2 == "+")
+            {
+                x++;
+                z++;
+            }
+            else if(ops1 == "+" && ops2 == "-")
+            {
+                x++;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "-")
+            {
+                x--;
+                z--;
+            }
+            else if(ops1 == "-" && ops2 == "+")
+            {
+                x--;
+                z++;
+            }
+
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
+                {
+                    gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
+                {
+                    gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null)
+                {
+                    break;
+                }
+            }
+            else break;
+        }
+
+        SetPosition();
+    }
+
     public void CheckIfCanDoMoves()
     {
         gameObject.GetComponent<PieceInfo>()._canDoMoves = false;
 
         SetPosition();
         
-        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        if(!gameObject.GetComponent<PieceInfo>()._canDoMoves)
         CheckIfCanDoMovement("+", "+"); //x, z
 
-        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        if(!gameObject.GetComponent<PieceInfo>()._canDoMoves)
         CheckIfCanDoMovement("+", "-"); //x, z
 
-        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        if(!gameObject.GetComponent<PieceInfo>()._canDoMoves)
         CheckIfCanDoMovement("-", "-"); //x, z
 
-        if(gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        if(!gameObject.GetComponent<PieceInfo>()._canDoMoves)
         CheckIfCanDoMovement("-", "+"); //x, z
+    }
+
+    public void CheckForCheckIfIsCheckingEnemyKing()
+    {
+        gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = false;
+
+        SetPosition();
+        
+        if(!gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing)
+        CheckIfIsCheckingEnemyKing("+", "+"); //x, z
+
+        if(!gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing)
+        CheckIfIsCheckingEnemyKing("+", "-"); //x, z
+
+        if(!gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing)
+        CheckIfIsCheckingEnemyKing("-", "-"); //x, z
+
+        if(!gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing)
+        CheckIfIsCheckingEnemyKing("-", "+"); //x, z
     }
 
     public void IterateForDefendingPieces()

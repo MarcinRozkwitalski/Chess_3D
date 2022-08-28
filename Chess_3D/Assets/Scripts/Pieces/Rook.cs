@@ -10,11 +10,17 @@ public class Rook : PieceInfo
 
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            CheckMovementForBlockingAndBeating("z", "+");
+            CheckMovementForBlockingAndBeating("z", "-");
+            CheckMovementForBlockingAndBeating("x", "+");
+            CheckMovementForBlockingAndBeating("x", "-");
         }
         else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            CheckMovementForBlockingAndBeating("z", "+");
+            CheckMovementForBlockingAndBeating("z", "-");
+            CheckMovementForBlockingAndBeating("x", "+");
+            CheckMovementForBlockingAndBeating("x", "-");
         }
         else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
@@ -23,11 +29,8 @@ public class Rook : PieceInfo
         else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
             CheckMovement("z", "+");
-
             CheckMovement("z", "-");
-
             CheckMovement("x", "+");
-
             CheckMovement("x", "-");
         }
     }
@@ -37,11 +40,8 @@ public class Rook : PieceInfo
         SetPosition();
 
         CheckBeatableTiles("z", "+");
-
         CheckBeatableTiles("z", "-");
-
         CheckBeatableTiles("x", "+");
-
         CheckBeatableTiles("x", "-");
     }
 
@@ -83,6 +83,62 @@ public class Rook : PieceInfo
                     break;
                 }
                 else break;
+            }
+            else break;
+        }
+
+        SetPosition();
+    }
+
+    public void CheckMovementForBlockingAndBeating(string var, string ops)
+    {
+        while(true)
+        {
+            if(var == "z" && ops == "+")
+            {
+                z++;
+            }
+            else if(var == "z" && ops == "-")
+            {
+                z--;
+            }
+            else if(var == "x" && ops == "+")
+            {
+                x++;
+            }
+            else if(var == "x" && ops == "-")
+            {
+                x--;
+            }
+
+            if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 0 && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByWhite)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 1 && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByBlack)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                _whichSide == 0 && 
+                chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
+                gameHandler._amountOfBlackPiecesCheckingWhiteKing == 1 &&
+                chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                    break;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                _whichSide == 1 && 
+                chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
+                gameHandler._amountOfWhitePiecesCheckingBlackKing == 1 &&
+                chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                    break;
+                }
             }
             else break;
         }

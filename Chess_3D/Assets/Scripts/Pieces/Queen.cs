@@ -8,11 +8,13 @@ public class Queen : PieceInfo
     {
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            gameObject.GetComponent<Bishop>().Movement();
+            gameObject.GetComponent<Rook>().Movement();
         }
         else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            gameObject.GetComponent<Bishop>().Movement();
+            gameObject.GetComponent<Rook>().Movement();
         }
         else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {

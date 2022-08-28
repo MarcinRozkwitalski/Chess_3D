@@ -10,11 +10,55 @@ public class Knight : PieceInfo
 
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            z++; z++; x++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z++; z++; x--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z--; z--; x++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z--; z--; x--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x++; x++; z--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x++; x++; z++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x--; x--; z--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x--; x--; z++;
+            CheckMovementForBlockingAndBeating(x, z);
         }
         else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            z++; z++; x++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z++; z++; x--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z--; z--; x++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            z--; z--; x--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x++; x++; z--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x++; x++; z++;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x--; x--; z--;
+            CheckMovementForBlockingAndBeating(x, z);
+
+            x--; x--; z++;
+            CheckMovementForBlockingAndBeating(x, z);
         }
         else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
@@ -93,6 +137,39 @@ public class Knight : PieceInfo
             {
                 gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
             }
+        }
+        
+        SetPosition();
+    }
+
+    public void CheckMovementForBlockingAndBeating(int x, int z)
+    {
+        if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 0 && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByWhite)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 1 && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByBlack)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                _whichSide == 0 && 
+                chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
+                gameHandler._amountOfBlackPiecesCheckingWhiteKing == 1 &&
+                chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                _whichSide == 1 && 
+                chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
+                gameHandler._amountOfWhitePiecesCheckingBlackKing == 1 &&
+                chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileRed(x, z);
+                }
         }
         
         SetPosition();

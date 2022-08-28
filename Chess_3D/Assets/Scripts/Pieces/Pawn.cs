@@ -296,9 +296,9 @@ public class Pawn : PieceInfo
 
         SetPosition();
 
-        Debug.Log(this + "///" + gameObject + "///" + x + "///" + z + "///" + _canDoMoves);
-
-        if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
+        if(_whichSide == 0 && 
+        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false
+        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z++;
 
@@ -308,7 +308,9 @@ public class Pawn : PieceInfo
                 gameHandler._possibleWhitePiecesMoves++;
             }
         }
-        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
+        else if(_whichSide == 1 && 
+        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false &&
+        gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z--;
 
@@ -318,7 +320,9 @@ public class Pawn : PieceInfo
                 gameHandler._possibleBlackPiecesMoves++;
             }
         }
-        else if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true)
+        else if(_whichSide == 0 && 
+        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true &&
+        gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z++;
 
@@ -329,34 +333,40 @@ public class Pawn : PieceInfo
                 gameHandler._possibleWhitePiecesMoves++;
             }
         }
-        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
+        else if(_whichSide == 1 && 
+        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true
+        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z--;
 
             if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
-             gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleBlackPiecesMoves++;
             }
         }
-        else if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true)
+        else if(_whichSide == 0 && 
+        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true
+        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z++;
 
             if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
-             gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByWhite == true)
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByWhite == true)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleWhitePiecesMoves++;
             }
         }
-        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
+        else if(_whichSide == 1 && 
+        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true &&
+        gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z--;
 
             if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
-             gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleBlackPiecesMoves++;

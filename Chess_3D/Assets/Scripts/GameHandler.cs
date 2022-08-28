@@ -263,8 +263,7 @@ public class GameHandler : MonoBehaviour
         CheckAmountOfPiecesCheckingEnemyKing();
         CheckIfAnyKingIsChecked();
         CheckMovesForPieces();
-        CheckIfAnySideCanDoAnyMoves();
-
+        CheckForWinConditions();
     }
 
     public void CleanChessPieces()
@@ -331,8 +330,13 @@ public class GameHandler : MonoBehaviour
         for(int i = 0; i < howManyPieces; i++)
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            Debug.Log("Checking Moves for " + currentPiece);
             currentPiece.GetComponent<PieceInfo>().HandleIfCanDoMoves();
+            Debug.Log(currentPiece + "'s state for _canDoMoves: " + currentPiece.GetComponent<PieceInfo>()._canDoMoves);
         }
+
+        Debug.Log(_possibleWhitePiecesMoves);
+        Debug.Log(_possibleBlackPiecesMoves);
     }
 
     public void CheckIfAnyPiecesAreDefendingTheirKings()
@@ -494,10 +498,24 @@ public class GameHandler : MonoBehaviour
         }
     }
 
-    public void CheckIfAnySideCanDoAnyMoves()
+    public void CheckForWinConditions()
     {
-        _possibleWhitePiecesMoves = 0;
-        _possibleBlackPiecesMoves = 0;
+        if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true)
+        {
+            Debug.Log("Black wins!");
+        }
+        else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
+        {
+            Debug.Log("White wins!");
+        }
+        else if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
+        {
+            Debug.Log("Stalemate!");
+        }
+        else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
+        {
+            Debug.Log("Stalemate!");
+        }
     }
 
     public void CheckIfAnyKingIsChecked()

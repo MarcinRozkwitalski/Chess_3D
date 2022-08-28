@@ -17,6 +17,9 @@ public class GameHandler : MonoBehaviour
     public int _amountOfWhitePiecesCheckingBlackKing = 0;
     public int _amountOfBlackPiecesCheckingWhiteKing = 0;
 
+    public int _possibleWhitePiecesMoves;
+    public int _possibleBlackPiecesMoves;
+
     public List<GameObject> _whitePiecesCheckingBlackKing = new List<GameObject>();
     public List<GameObject> _blackPiecesCheckingWhiteKing = new List<GameObject>();
 
@@ -255,11 +258,13 @@ public class GameHandler : MonoBehaviour
         CleanChessPieces();
         ResetBeatableTiles();
         CheckBeatableTiles();
-        CheckMovesForPieces();
         CheckIfAnyPiecesAreDefendingTheirKings();
         CheckIfAnyPieceIsCheckingEnemyKing();
         CheckAmountOfPiecesCheckingEnemyKing();
         CheckIfAnyKingIsChecked();
+        CheckMovesForPieces();
+        CheckIfAnySideCanDoAnyMoves();
+
     }
 
     public void CleanChessPieces()
@@ -319,6 +324,9 @@ public class GameHandler : MonoBehaviour
     public void CheckMovesForPieces()
     {
         int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        _possibleWhitePiecesMoves = 0;
+        _possibleBlackPiecesMoves = 0;
 
         for(int i = 0; i < howManyPieces; i++)
         {
@@ -484,6 +492,12 @@ public class GameHandler : MonoBehaviour
                 currentTile.GetComponent<TileInfo>()._canBeBlockedByBlack = false;
             }
         }
+    }
+
+    public void CheckIfAnySideCanDoAnyMoves()
+    {
+        _possibleWhitePiecesMoves = 0;
+        _possibleBlackPiecesMoves = 0;
     }
 
     public void CheckIfAnyKingIsChecked()

@@ -17,12 +17,49 @@ public class Pawn : PieceInfo
 
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if there's only one piece who is checking the king and if so, if this piece can beat the checking piece
-            //or if it can "block" the line of checking
+            z++;
+
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByWhite)
+            {
+                gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+            }
+
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null)
+            {
+                
+            }
+            else if(gameObject.transform.position.z == initZ)
+            {
+                z++;
+
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByWhite)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+            }
         }
         else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
         {
-            //check if this piece can beat checking ONE piece
+            z--;
+
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByBlack)
+            {
+                gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+            }
+
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null)
+            {
+
+            }
+            else if(gameObject.transform.position.z == initZ)
+            {
+                z--;
+
+                if(chessPiecesGrid.chessPiecesGrid[x, z] == null && gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByBlack)
+                {
+                    gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                }
+            }
         }
         else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {

@@ -5,6 +5,7 @@ using System;
 
 public class PieceInfo : MonoBehaviour
 {
+    public GameHandler gameHandler;
     public GridCreator gridCreator;
     public ChessPiecesGrid chessPiecesGrid;
 
@@ -35,6 +36,7 @@ public class PieceInfo : MonoBehaviour
 
     void Awake()
     {
+        gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
         chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
         _meshRenderer = gameObject.GetComponent<MeshRenderer>();

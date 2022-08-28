@@ -331,6 +331,9 @@ public class Bishop : PieceInfo
 
     public void CheckIfIsCheckingEnemyKing(string ops1, string ops2)
     {
+        List<string> _blockableTilesByWhiteForThisPiece = new List<string>();
+        List<string> _blockableTilesByBlackForThisPiece = new List<string>();
+
         while(true)
         {
             if(ops1 == "+" && ops2 == "+")
@@ -356,14 +359,25 @@ public class Bishop : PieceInfo
 
             if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
             {
+                if(_whichSide == 0)
+                {
+                    _blockableTilesByBlackForThisPiece.Add(x.ToString() + z.ToString());
+                }
+                else if(_whichSide == 1)
+                {
+                    _blockableTilesByWhiteForThisPiece.Add(x.ToString() + z.ToString());
+                }
+
                 if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackKing(Clone)")
                 {
                     gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+                    gameHandler._blockableTilesByBlack.AddRange(_blockableTilesByBlackForThisPiece);
                     break;
                 }
                 else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteKing(Clone)")
                 {
                     gameObject.GetComponent<PieceInfo>()._isCheckingEnemyKing = true;
+                    gameHandler._blockableTilesByWhite.AddRange(_blockableTilesByWhiteForThisPiece);
                     break;
                 }
                 else if(chessPiecesGrid.chessPiecesGrid[x, z] != null)

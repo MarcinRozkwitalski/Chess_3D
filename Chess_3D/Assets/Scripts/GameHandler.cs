@@ -17,6 +17,12 @@ public class GameHandler : MonoBehaviour
     public int _amountOfWhitePiecesCheckingBlackKing = 0;
     public int _amountOfBlackPiecesCheckingWhiteKing = 0;
 
+    public List<GameObject> _whitePiecesCheckingBlackKing = new List<GameObject>();
+    public List<GameObject> _blackPiecesCheckingWhiteKing = new List<GameObject>();
+
+    public List<string> _blockableTilesByWhite = new List<string>();
+    public List<string> _blockableTilesByBlack = new List<string>();
+
     [SerializeField] public int _whosTurnNow = 0; //0 - white, 1 - black
 
     Transform _selection;
@@ -394,8 +400,8 @@ public class GameHandler : MonoBehaviour
         _amountOfWhitePiecesCheckingBlackKing = 0;
         _amountOfBlackPiecesCheckingWhiteKing = 0;
 
-        List<GameObject> _whitePiecesCheckingBlackKing = new List<GameObject>();
-        List<GameObject> _blackPiecesCheckingWhiteKing = new List<GameObject>();
+        _whitePiecesCheckingBlackKing.Clear();
+        _blackPiecesCheckingWhiteKing.Clear();
 
         int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
 
@@ -414,19 +420,68 @@ public class GameHandler : MonoBehaviour
             }
         }
 
-        
-
-        if(_amountOfWhitePiecesCheckingBlackKing > 0)
+        if(_whitePiecesCheckingBlackKing.Count != 0 || _blackPiecesCheckingWhiteKing.Count != 0)
         {
-            for(int i = 0; i < _whitePiecesCheckingBlackKing.Count; i++) {
-                Debug.Log("[" + i + "] = " + _whitePiecesCheckingBlackKing[i] + " < WhitePiecesChecking");
+            if(_amountOfWhitePiecesCheckingBlackKing == 1)
+            {
+                for(int i = 0; i < _whitePiecesCheckingBlackKing.Count; i++)
+                {
+                    Debug.Log("[" + i + "] = " + _whitePiecesCheckingBlackKing[i] + "/ x = " +
+                    _whitePiecesCheckingBlackKing[i].transform.position.x + "/ z = " +
+                    _whitePiecesCheckingBlackKing[i].transform.position.z +
+                    " < WhitePiecesChecking");
+                    //blokujące pola mogą powstać tylko na takich polach gdzie bicie jest wielokrotne od damy, gońca i wieży
+                }
+
+                if(_blockableTilesByBlack.Count != 0)
+                _blockableTilesByBlack.RemoveAt(_blockableTilesByBlack.Count - 1);
+
+                for(int i = 0; i < _blockableTilesByBlack.Count; i++)
+                {
+                    int newX, newZ;
+                    newX = int.Parse(_blockableTilesByBlack[i].Substring(0, 1));
+                    newZ = int.Parse(_blockableTilesByBlack[i].Substring(1, 1));
+
+                    gridCreator.chessBoardGrid[newX, newZ].GetComponent<TileInfo>()._canBeBlockedByBlack = true;
+                }
+            }
+            
+            if(_amountOfBlackPiecesCheckingWhiteKing == 1)
+            {
+                for(int i = 0; i < _blackPiecesCheckingWhiteKing.Count; i++)
+                {
+                    Debug.Log("[" + i + "] = " + _blackPiecesCheckingWhiteKing[i] + "/ x = " +
+                    _blackPiecesCheckingWhiteKing[i].transform.position.x + "/ z = " +
+                    _blackPiecesCheckingWhiteKing[i].transform.position.z +
+                    " < BlackPiecesChecking");
+                    //blokujące pola mogą powstać tylko na takich polach gdzie bicie jest wielokrotne od damy, gońca i wieży
+                }
+
+                if(_blockableTilesByWhite.Count != 0)
+                _blockableTilesByWhite.RemoveAt(_blockableTilesByWhite.Count - 1);
+
+                for(int i = 0; i < _blockableTilesByWhite.Count; i++)
+                {
+                    int newX, newZ;
+                    newX = int.Parse(_blockableTilesByWhite[i].Substring(0, 1));
+                    newZ = int.Parse(_blockableTilesByWhite[i].Substring(1, 1));
+
+                    gridCreator.chessBoardGrid[newX, newZ].GetComponent<TileInfo>()._canBeBlockedByWhite = true;
+                }
             }
         }
-        
-        if(_amountOfBlackPiecesCheckingWhiteKing > 0)
+        else
         {
-            for(int i = 0; i < _blackPiecesCheckingWhiteKing.Count; i++) {
-                Debug.Log("[" + i + "] = " + _blackPiecesCheckingWhiteKing[i] + " < WhitePiecesChecking");
+            _blockableTilesByBlack.Clear();
+            _blockableTilesByWhite.Clear();
+
+            int howManyTiles = gridCreator.gameObject.transform.childCount;
+
+            for(int i = 0; i < howManyTiles; i++)
+            {
+                GameObject currentTile = gridCreator.gameObject.transform.GetChild(i).gameObject;
+                currentTile.GetComponent<TileInfo>()._canBeBlockedByWhite = false;
+                currentTile.GetComponent<TileInfo>()._canBeBlockedByBlack = false;
             }
         }
     }

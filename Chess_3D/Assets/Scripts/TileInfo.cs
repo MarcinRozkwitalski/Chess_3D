@@ -7,6 +7,9 @@ public class TileInfo : MonoBehaviour
     public bool _isBeatableByWhite;
     public bool _isBeatableByBlack;
 
+    public bool _canBeBlockedByWhite;
+    public bool _canBeBlockedByBlack;
+
     void Start() {
         _isBeatableByWhite = false;
         _isBeatableByBlack = false;

@@ -110,21 +110,39 @@ public class King : PieceInfo
     {
         if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
         {
-            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 0 && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack)
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+            _whichSide == 0 && 
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                gameHandler._possibleWhitePiecesMoves++;
             }
-            else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && _whichSide == 1 && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite)
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+            _whichSide == 1 && 
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                gameHandler._possibleBlackPiecesMoves++;
             }
-            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 0 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack)
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 0 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                gameHandler._possibleWhitePiecesMoves++;
             }
-            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && _whichSide == 1 && chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && !gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite)
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 1 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                gameHandler._possibleBlackPiecesMoves++;
             }
         }
     }

@@ -280,6 +280,14 @@ MonoBehaviour:
   _letPlayersChoosePieces: 0
   _whiteIsChecked: 0
   _blackIsChecked: 0
+  _amountOfWhitePiecesCheckingBlackKing: 0
+  _amountOfBlackPiecesCheckingWhiteKing: 0
+  _possibleWhitePiecesMoves: 0
+  _possibleBlackPiecesMoves: 0
+  _whitePiecesCheckingBlackKing: []
+  _blackPiecesCheckingWhiteKing: []
+  _blockableTilesByWhite: []
+  _blockableTilesByBlack: []
   _whosTurnNow: 0
   _currentGOSelection: {fileID: 0}
   _currentGOSelectionPieceInfo: {fileID: 0}
@@ -394,6 +402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mouseSensitivity: 3
+  targetObjectNextPosition: {x: 0, y: 0, z: 0}
+  _moveTarget: 0
   _target: {fileID: 1893225467}
   _distanceFromTarget: 8
 --- !u!1 &509579529

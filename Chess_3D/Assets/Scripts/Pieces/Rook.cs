@@ -312,6 +312,24 @@ public class Rook : PieceInfo
                     gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                     gameHandler._possibleBlackPiecesMoves++;
                 }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                _whichSide == 0 &&
+                GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true &&
+                gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByWhite &&
+                gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+                {
+                    gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                    gameHandler._possibleBlackPiecesMoves++;
+                }
+                else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                _whichSide == 1 &&
+                GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true &&
+                gridCreator.chessBoardGrid[x, z].GetComponent<TileInfo>()._canBeBlockedByBlack &&
+                gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+                {
+                    gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                    gameHandler._possibleBlackPiecesMoves++;
+                }
                 else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
                 _whichSide == 0 &&
                 chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 

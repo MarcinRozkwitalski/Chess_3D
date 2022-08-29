@@ -18,7 +18,8 @@ public class Queen : PieceInfo
         }
         else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {
-            //która strona
+            gameObject.GetComponent<Bishop>().Movement();
+            gameObject.GetComponent<Rook>().Movement();
         }
         else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {

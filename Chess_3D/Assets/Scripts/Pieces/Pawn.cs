@@ -303,8 +303,8 @@ public class Pawn : PieceInfo
         SetPosition();
 
         if(_whichSide == 0 && 
-        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false
-        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
+        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false && 
+        gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z++;
 
@@ -338,24 +338,7 @@ public class Pawn : PieceInfo
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleWhitePiecesMoves++;
             }
-        }
-        else if(_whichSide == 1 && 
-        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true
-        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
-        {
-            z--;
 
-            if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
-            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
-            {
-                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
-                gameHandler._possibleBlackPiecesMoves++;
-            }
-        }
-        else if(_whichSide == 0 && 
-        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true
-        && gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
-        {
             z++;
 
             if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
@@ -366,7 +349,7 @@ public class Pawn : PieceInfo
             }
         }
         else if(_whichSide == 1 && 
-        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true &&
+        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true && 
         gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
         {
             z--;
@@ -377,8 +360,16 @@ public class Pawn : PieceInfo
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleBlackPiecesMoves++;
             }
-        }
 
+            z--;
+
+            if(chessPiecesGrid.chessPiecesGrid[x, z] == null &&
+            gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._canBeBlockedByBlack == true)
+            {
+                gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
+                gameHandler._possibleBlackPiecesMoves++;
+            }
+        }
 
         SetPosition();
         x--; z++;

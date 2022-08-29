@@ -8,23 +8,47 @@ public class Bishop : PieceInfo
     {
         SetPosition();
 
-        if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)
+        if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked &&
+        gameObject.GetComponent<PieceInfo>()._isDefendingKing == false)
         {
             CheckMovementForBlockingAndBeating("+", "+");
             CheckMovementForBlockingAndBeating("+", "-");
             CheckMovementForBlockingAndBeating("-", "-");
             CheckMovementForBlockingAndBeating("-", "+");
         }
-        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked)
+        else if(_whichSide == 1 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked &&
+        gameObject.GetComponent<PieceInfo>()._isDefendingKing == false)
         {
             CheckMovementForBlockingAndBeating("+", "+");
             CheckMovementForBlockingAndBeating("+", "-");
             CheckMovementForBlockingAndBeating("-", "-");
             CheckMovementForBlockingAndBeating("-", "+");
         }
-        else if(gameObject.GetComponent<PieceInfo>()._isDefendingKing)
+        else if(_whichSide == 0 && gameObject.GetComponent<PieceInfo>()._isDefendingKing &&
+        GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false 
+        ||
+        _whichSide == 1 && gameObject.GetComponent<PieceInfo>()._isDefendingKing &&
+        GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
         {
-            //która strona itd
+            switch(gameObject.GetComponent<PieceInfo>()._attackingPieceDirection)
+            {
+                case "x+z+":
+                    CheckMovement("+", "+"); //x, z
+                    CheckMovement("-", "-"); //x, z
+                    break;
+                case "x+z-":
+                    CheckMovement("+", "-"); //x, z
+                    CheckMovement("-", "+"); //x, z
+                    break;
+                case "x-z-":
+                    CheckMovement("-", "-"); //x, z
+                    CheckMovement("+", "+"); //x, z
+                    break;
+                case "x-z+":
+                    CheckMovement("-", "+"); //x, z
+                    CheckMovement("+", "-"); //x, z
+                    break;
+            }
         }
         else if(!gameObject.GetComponent<PieceInfo>()._isDefendingKing)
         {

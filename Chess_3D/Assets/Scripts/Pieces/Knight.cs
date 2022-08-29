@@ -278,6 +278,7 @@ public class Knight : PieceInfo
                 chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
                 GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true &&
                 chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing && 
+                gameHandler._amountOfBlackPiecesCheckingWhiteKing == 1 &&
                 gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
                 {
                     gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
@@ -288,6 +289,7 @@ public class Knight : PieceInfo
                 chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
                 GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true &&
                 chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing && 
+                gameHandler._amountOfWhitePiecesCheckingBlackKing == 1 &&
                 gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
                 {
                     gameObject.GetComponent<PieceInfo>()._canDoMoves = true;

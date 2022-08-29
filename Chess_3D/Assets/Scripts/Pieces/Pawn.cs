@@ -241,7 +241,8 @@ public class Pawn : PieceInfo
             if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
             _whichSide == 0 && 
             chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
-            GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
+            GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleWhitePiecesMoves++;
@@ -249,7 +250,8 @@ public class Pawn : PieceInfo
             else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
             _whichSide == 1 && 
             chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
-            GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
+            GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleBlackPiecesMoves++;
@@ -258,7 +260,9 @@ public class Pawn : PieceInfo
             _whichSide == 0 && 
             chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") && 
             GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true &&
-            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing &&
+            gameHandler._amountOfBlackPiecesCheckingWhiteKing == 1 &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleWhitePiecesMoves++;
@@ -267,7 +271,9 @@ public class Pawn : PieceInfo
             _whichSide == 1 && 
             chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") && 
             GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true &&
-            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing)
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<PieceInfo>()._isCheckingEnemyKing &&
+            gameHandler._amountOfWhitePiecesCheckingBlackKing == 1 &&
+            gameObject.GetComponent<PieceInfo>()._canDoMoves == false)
             {
                 gameObject.GetComponent<PieceInfo>()._canDoMoves = true;
                 gameHandler._possibleBlackPiecesMoves++;

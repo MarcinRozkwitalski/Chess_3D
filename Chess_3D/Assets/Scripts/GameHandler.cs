@@ -248,6 +248,66 @@ public class GameHandler : MonoBehaviour
             _lastWhichSide = 1;
             _whosTurnNow = 0;
         }
+
+        if(tempCurrentGOSelection.GetComponent<King>())
+        {
+            int xToAdd = tempCurrentGOSelection.GetComponent<King>().initX;
+            int zToAdd = tempCurrentGOSelection.GetComponent<King>().initZ;
+
+            if(tempCurrentGOSelection.GetComponent<King>()._hasMoved == false &&
+            tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 0)
+            {
+                if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX - 2)
+                {
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[0, 0];
+                    chessPiecesGrid.chessPiecesGrid[0, 0] = null;
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position + new Vector3(3, 0f, 0);
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
+                }
+                else if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX + 2)
+                {
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[7, 0];
+                    chessPiecesGrid.chessPiecesGrid[7, 0] = null;
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position + new Vector3(-2, 0f, 0);
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
+                }
+            }
+            else if(tempCurrentGOSelection.GetComponent<King>()._hasMoved == false &&
+            tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 1)
+            {
+                if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX - 2)
+                {
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[0, 7];
+                    chessPiecesGrid.chessPiecesGrid[0, 7] = null;
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position + new Vector3(3, 0f, 0);
+                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
+                }
+                else if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX + 2)
+                {
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[7, 7];
+                    chessPiecesGrid.chessPiecesGrid[7, 7] = null;
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position + new Vector3(-2, 0f, 0);
+                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
+                }
+            }
+        } 
+
+        if(!tempCurrentGOSelection.GetComponent<Queen>() && 
+        !tempCurrentGOSelection.GetComponent<Pawn>() && 
+        !tempCurrentGOSelection.GetComponent<Knight>() &&
+        !tempCurrentGOSelection.GetComponent<Bishop>())
+        {
+            if(tempCurrentGOSelection.GetComponent<King>())
+            {
+                tempCurrentGOSelection.GetComponent<King>()._hasMoved = true;
+            } 
+            else if(tempCurrentGOSelection.GetComponent<Rook>())
+            {
+                tempCurrentGOSelection.GetComponent<Rook>()._hasMoved = true;
+            }
+        }
+
+
         
         tempCurrentGoSelectionPieceInfo._isSelected = false;
         tempCurrentGoSelectionPieceInfo._flagForTileGeneration = false;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Rook : PieceInfo
 {
+    public bool _hasMoved = false;
+
     public void Movement()
     {
         SetPosition();

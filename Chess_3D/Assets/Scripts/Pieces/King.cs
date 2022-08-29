@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class King : PieceInfo
 {
+    public int initX, initZ;
+
     public bool _isChecked = false;
+    public bool _hasMoved = false;
+
+    void Start() {
+        initX = (int)gameObject.transform.position.x;
+        initZ = (int)gameObject.transform.position.z;
+    }
 
     public void Movement()
     {
@@ -33,6 +41,10 @@ public class King : PieceInfo
 
         x--;
         CheckMovement(x, z);
+
+        CheckIfCanDoLongCastling();
+
+        CheckIfCanDoShortCastling();
     }
 
     public void BeatableTiles()
@@ -87,6 +99,182 @@ public class King : PieceInfo
         }
 
         SetPosition();
+    }
+
+    public void CheckIfCanDoLongCastling()
+    {
+        SetPosition();
+
+        if(_whichSide == 0 && _isChecked == false && _hasMoved == false)
+        {
+            while(true)
+            {
+                x--;
+
+                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == false)
+                    {
+
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == true)
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name != "WhiteRook(Clone)" &&
+                    !chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteRook(Clone)" &&
+                    chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>()._hasMoved == false)
+                        {
+                            SetPosition();
+                            x--; x--;
+
+                            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                            break;
+                        }
+                    }
+                }
+                else break;
+            }
+        }
+        else if(_whichSide == 1 && _isChecked == false && _hasMoved == false)
+        {
+            while(true)
+            {
+                x--;
+
+                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == false)
+                    {
+
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == true)
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name != "BlackRook(Clone)" &&
+                    !chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackRook(Clone)" &&
+                    chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>()._hasMoved == false)
+                        {
+                            SetPosition();
+                            x--; x--;
+
+                            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                            break;
+                        }
+                    }
+                }
+                else break;
+            }
+        }
+    }
+
+    public void CheckIfCanDoShortCastling()
+    {
+        SetPosition();
+
+        if(_whichSide == 0 && _isChecked == false && _hasMoved == false)
+        {
+            while(true)
+            {
+                x++;
+
+                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == false)
+                    {
+
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByBlack == true)
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name != "WhiteRook(Clone)" &&
+                    !chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name == "WhiteRook(Clone)" &&
+                    chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>()._hasMoved == false)
+                        {
+                            SetPosition();
+                            x++; x++;
+
+                            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                            break;
+                        }
+                    }
+                }
+                else break;
+            }
+        }
+        else if(_whichSide == 1 && _isChecked == false && _hasMoved == false)
+        {
+            while(true)
+            {
+                x++;
+
+                if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == false)
+                    {
+
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] == null && 
+                    gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>()._isBeatableByWhite == true)
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name != "BlackRook(Clone)" &&
+                    !chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        break;
+                    }
+                    else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+                    chessPiecesGrid.chessPiecesGrid[x, z].name == "BlackRook(Clone)" &&
+                    chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>())
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Rook>()._hasMoved == false)
+                        {
+                            SetPosition();
+                            x++; x++;
+
+                            gameObject.GetComponent<PieceInfo>().SetTileGreen(x, z);
+                            break;
+                        }
+                    }
+                }
+                else break;
+            }
+        }
     }
 
     public void CheckBeatableTiles(int x, int z)

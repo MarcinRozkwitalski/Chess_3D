@@ -6,6 +6,8 @@ public class Pawn : PieceInfo
 {
     int initX, initZ;
 
+    bool canEnPassant;
+
     void Start() {
         initX = (int)gameObject.transform.position.x;
         initZ = (int)gameObject.transform.position.z;

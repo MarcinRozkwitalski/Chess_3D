@@ -8,6 +8,7 @@ public class GameHandler : MonoBehaviour
     GridCreator gridCreator;
     ChessPiecesGrid chessPiecesGrid;
     AdjustPlaneToGrid adjustPlaneToGrid;
+    MoveCameraAroundObject moveCameraAroundObject;
 
     public bool _gameHasBeenStarted = false;
     public bool _letPlayersChoosePieces = false;
@@ -41,6 +42,7 @@ public class GameHandler : MonoBehaviour
         chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
         adjustPlaneToGrid = GameObject.Find("Plane").GetComponent<AdjustPlaneToGrid>();
         GameInfoText = GameObject.Find("GameInfoText").GetComponent<Text>();
+        moveCameraAroundObject = GameObject.Find("Main Camera").GetComponent<MoveCameraAroundObject>();
 
         adjustPlaneToGrid.StartAnimation();
     }
@@ -563,10 +565,28 @@ public class GameHandler : MonoBehaviour
         if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true)
         {
             Debug.Log("Black wins!");
+            _gameHasBeenStarted = false;
+            Vector3 targetObjectNextPosition = GameObject.Find("BlackKing(Clone)").transform.position;
+            moveCameraAroundObject.targetObjectNextPosition = targetObjectNextPosition;
+            moveCameraAroundObject._moveTarget = true;
+            
+            GameObject FireworksObject = GameObject.Find("FireworksObject");
+            FireworksObject.transform.SetParent(GameObject.Find("BlackKing(Clone)").transform);
+            FireworksObject.transform.localPosition = new Vector3(0, 0, 0);
+            FireworksObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
         {
             Debug.Log("White wins!");
+            _gameHasBeenStarted = false;
+            Vector3 targetObjectNextPosition = GameObject.Find("WhiteKing(Clone)").transform.position;
+            moveCameraAroundObject.targetObjectNextPosition = targetObjectNextPosition;
+            moveCameraAroundObject._moveTarget = true;
+
+            GameObject FireworksObject = GameObject.Find("FireworksObject");
+            FireworksObject.transform.SetParent(GameObject.Find("WhiteKing(Clone)").transform);
+            FireworksObject.transform.localPosition = new Vector3(0, 0, 0);
+            FireworksObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
         {

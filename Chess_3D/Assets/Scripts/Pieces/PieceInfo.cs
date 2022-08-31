@@ -212,6 +212,11 @@ public class PieceInfo : MonoBehaviour
         chessPiecesGrid.chessPiecesGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
+    public void SetTileRedForEnPassant(int x, int z)
+    {
+        gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
+
     public void SetPosition()
     {
         x = (int)gameObject.transform.position.x;

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Pawn : PieceInfo
 {
-    int initX, initZ;
+    public int initX, initZ;
 
-    bool canEnPassant;
+    public bool _canEnPassant = false;
+    public bool _canBeEnPassanted = false;
 
-    void Start() {
+    void Start() 
+    {
         initX = (int)gameObject.transform.position.x;
         initZ = (int)gameObject.transform.position.z;
     }
@@ -243,6 +245,10 @@ public class Pawn : PieceInfo
 
             x++; z--;
             if(_whichSide == 1) CheckMovement(x, z);
+
+            SetPosition();
+
+            CheckIfCanDoEnPassant(x, z);
         }
     }   
 
@@ -281,6 +287,65 @@ public class Pawn : PieceInfo
             if(-1 < z && z < gridCreator._zWidth && -1 < x && x < gridCreator._xWidth)
             {
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOnBlack();
+            }
+        }
+    }
+
+    public void CheckIfCanDoEnPassant(int x, int z)
+    {
+        x++;
+
+        if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 0 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") &&
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>())
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>()._canBeEnPassanted)
+                {
+                    z++;
+                    gameObject.GetComponent<PieceInfo>().SetTileRedForEnPassant(x, z);
+                }
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 1 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") &&
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>())
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>()._canBeEnPassanted)
+                {
+                    z--;
+                    gameObject.GetComponent<PieceInfo>().SetTileRedForEnPassant(x, z);
+                }
+            }
+        }
+
+        x--; x--;
+
+        if(-1 < x && x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+        {
+            if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 0 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("Black") &&
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>())
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>()._canBeEnPassanted)
+                {
+                    z++;
+                    gameObject.GetComponent<PieceInfo>().SetTileRedForEnPassant(x, z);
+                }
+            }
+            else if(chessPiecesGrid.chessPiecesGrid[x, z] != null && 
+            _whichSide == 1 && 
+            chessPiecesGrid.chessPiecesGrid[x, z].CompareTag("White") &&
+            chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>())
+            {
+                if(chessPiecesGrid.chessPiecesGrid[x, z].GetComponent<Pawn>()._canBeEnPassanted)
+                {
+                    z--;
+                    gameObject.GetComponent<PieceInfo>().SetTileRedForEnPassant(x, z);
+                }
             }
         }
     }

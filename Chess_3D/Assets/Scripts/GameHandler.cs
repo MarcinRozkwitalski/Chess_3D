@@ -220,7 +220,93 @@ public class GameHandler : MonoBehaviour
         int new_z = (int)selection.transform.position.z;
         int new_x = (int)selection.transform.position.x;
 
-        if(selection.GetComponent<Renderer>().material.color == Color.red) Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
+        if(selection.GetComponent<Renderer>().material.color == Color.red && chessPiecesGrid.chessPiecesGrid[new_x, new_z] != null)
+        {
+            Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
+        }
+
+        if(tempCurrentGOSelection.GetComponent<Pawn>())
+        {
+            int temp_new_x = new_x;
+            int temp_new_z = new_z;
+
+            if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 0 && new_z - z == 2)
+            {
+                temp_new_x--;
+                if(-1 < temp_new_x && temp_new_x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z] != null)
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<Pawn>() && 
+                        chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<PieceInfo>()._whichSide == 1)
+                        {
+                            tempCurrentGOSelection.GetComponent<Pawn>()._canBeEnPassanted = true;
+                            chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<Pawn>()._canEnPassant = true;
+                        }
+                    }
+                }
+                
+                temp_new_x = new_x;
+                temp_new_x++;
+                if(-1 < temp_new_x && temp_new_x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z] != null)
+                    {
+                        if (chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<Pawn>() && 
+                        chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<PieceInfo>()._whichSide == 1)
+                        {
+                            tempCurrentGOSelection.GetComponent<Pawn>()._canBeEnPassanted = true;
+                            chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<Pawn>()._canEnPassant = true;
+                        }
+                    }
+                }
+            }
+            else if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 1 && z - new_z == 2)
+            {
+                temp_new_x--;
+                if(-1 < temp_new_x && temp_new_x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z] != null)
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<Pawn>() && 
+                        chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<PieceInfo>()._whichSide == 0)
+                        {
+                            tempCurrentGOSelection.GetComponent<Pawn>()._canBeEnPassanted = true;
+                            chessPiecesGrid.chessPiecesGrid[new_x - 1, new_z].gameObject.GetComponent<Pawn>()._canEnPassant = true;
+                        }
+                    }
+                }
+                
+                temp_new_x = new_x;
+                temp_new_x++;
+                if(-1 < temp_new_x && temp_new_x < gridCreator._xWidth && -1 < z && z < gridCreator._zWidth)
+                {
+                    if(chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z] != null)
+                    {
+                        if(chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<Pawn>() && 
+                        chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<PieceInfo>()._whichSide == 0)
+                        {
+                            tempCurrentGOSelection.GetComponent<Pawn>()._canBeEnPassanted = true;
+                            chessPiecesGrid.chessPiecesGrid[new_x + 1, new_z].gameObject.GetComponent<Pawn>()._canEnPassant = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(tempCurrentGOSelection.GetComponent<Pawn>() && 
+        selection.GetComponent<Renderer>().material.color == Color.red && 
+        chessPiecesGrid.chessPiecesGrid[new_x, new_z] == null)
+        {
+            if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 0)
+            {
+                Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z - 1]);
+            }
+            else if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 1)
+            {
+                Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z + 1]);
+            }
+        }
 
         chessPiecesGrid.chessPiecesGrid[x, z] = null;
         chessPiecesGrid.chessPiecesGrid[new_x, new_z] = tempCurrentGOSelection;
@@ -249,6 +335,14 @@ public class GameHandler : MonoBehaviour
             }
             _lastWhichSide = 1;
             _whosTurnNow = 0;
+        }
+
+        if(tempCurrentGOSelection.GetComponent<Pawn>())
+        {
+            if(tempCurrentGOSelection.GetComponent<Pawn>()._canEnPassant == true)
+            {
+                tempCurrentGOSelection.GetComponent<Pawn>()._canEnPassant = false;
+            }
         }
 
         if(tempCurrentGOSelection.GetComponent<King>())
@@ -320,6 +414,7 @@ public class GameHandler : MonoBehaviour
         CleanChessPieces();
         ResetBeatableTiles();
         CheckBeatableTiles();
+        CheckIfPawnsForThisSideTurnHaveEnPassant();
         CheckIfAnyPiecesAreDefendingTheirKings();
         CheckIfAnyPieceIsCheckingEnemyKing();
         CheckAmountOfPiecesCheckingEnemyKing();
@@ -344,9 +439,9 @@ public class GameHandler : MonoBehaviour
     {
         int count = 0;
         
-        for (int x = 0; x < gridCreator._xWidth; x++)
+        for(int x = 0; x < gridCreator._xWidth; x++)
         {
-            for (int z = 0; z < gridCreator._zWidth; z++)
+            for(int z = 0; z < gridCreator._zWidth; z++)
             {
                 if(gridCreator.chessBoardGrid[x, z].name == "WhiteTile(Clone)" || gridCreator.chessBoardGrid[x, z].name == "BlackTile(Clone)")
                 {
@@ -361,9 +456,9 @@ public class GameHandler : MonoBehaviour
 
     public void ResetBeatableTiles()
     {
-        for (int x = 0; x < gridCreator._xWidth; x++)
+        for(int x = 0; x < gridCreator._xWidth; x++)
         {
-            for (int z = 0; z < gridCreator._zWidth; z++)
+            for(int z = 0; z < gridCreator._zWidth; z++)
             {
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffWhite();
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffBlack();
@@ -379,6 +474,34 @@ public class GameHandler : MonoBehaviour
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
             currentPiece.GetComponent<PieceInfo>().HandleBeatableTiles();
+        }
+    }
+
+    public void CheckIfPawnsForThisSideTurnHaveEnPassant()
+    {
+        int howManyPieces = chessPiecesGrid.gameObject.transform.childCount;
+
+        if(_whosTurnNow == 0)
+        {
+            for(int i = 0; i < howManyPieces; i++)
+            {
+                GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+                if(currentPiece.CompareTag("White") && currentPiece.GetComponent<Pawn>())
+                {
+                    currentPiece.GetComponent<Pawn>()._canBeEnPassanted = false;
+                }
+            }
+        }
+        else if(_whosTurnNow == 1)
+        {
+            for(int i = 0; i < howManyPieces; i++)
+            {
+                GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+                if(currentPiece.CompareTag("Black") && currentPiece.GetComponent<Pawn>())
+                {
+                    currentPiece.GetComponent<Pawn>()._canBeEnPassanted = false;
+                }
+            }
         }
     }
 
@@ -591,10 +714,12 @@ public class GameHandler : MonoBehaviour
         else if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
         {
             Debug.Log("Stalemate!");
+            _gameHasBeenStarted = false;
         }
         else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
         {
             Debug.Log("Stalemate!");
+            _gameHasBeenStarted = false;
         }
     }
 

@@ -288,6 +288,7 @@ MonoBehaviour:
   _blackPiecesCheckingWhiteKing: []
   _blockableTilesByWhite: []
   _blockableTilesByBlack: []
+  _lastDestroyedGameObject: {fileID: 0}
   _whosTurnNow: 0
   _currentGOSelection: {fileID: 0}
   _currentGOSelectionPieceInfo: {fileID: 0}
@@ -404,6 +405,10 @@ MonoBehaviour:
   _mouseSensitivity: 3
   targetObjectNextPosition: {x: 0, y: 0, z: 0}
   _moveTarget: 0
+  _rotationX: 20
+  _rotationY: 0
+  mouseX: 0
+  mouseY: 0
   _target: {fileID: 1893225467}
   _distanceFromTarget: 8
 --- !u!1 &509579529
@@ -469,7 +474,7 @@ MonoBehaviour:
     type: 3}
   gridCellBlackTilePrefab: {fileID: 4070615854259705381, guid: 9157136c2258e24408f377b33a2a9397,
     type: 3}
-  normalSpeed: 0
+  normalSpeed: 1
 --- !u!1 &520061794
 GameObject:
   m_ObjectHideFlags: 0
@@ -5684,7 +5689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1113993564
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15638,7 +15643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1478809470
 RectTransform:
   m_ObjectHideFlags: 0

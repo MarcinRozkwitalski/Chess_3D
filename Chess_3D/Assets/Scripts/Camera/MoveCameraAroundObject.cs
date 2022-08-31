@@ -79,7 +79,7 @@ public class MoveCameraAroundObject : MonoBehaviour
 
             transform.position = _target.position - transform.forward * _distanceFromTarget;
         }
-        else if(!gameHandler._gameHasBeenStarted)
+        else if(!gameHandler._gameHasBeenStarted && !gameHandler._startingCamera)
         {
             float targetValue = 18f;
             float targetValue2 = 40f;
@@ -121,6 +121,11 @@ public class MoveCameraAroundObject : MonoBehaviour
                     transform.Translate(Vector3.right * 2f * Time.deltaTime);
                 }
             }
+        }
+        else if(gameHandler._startingCamera)
+        {
+            transform.LookAt(_target);
+            transform.Translate(Vector3.right * 2f * Time.deltaTime);
         }
     }
 }

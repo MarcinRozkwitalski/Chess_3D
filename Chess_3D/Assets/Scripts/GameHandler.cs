@@ -11,6 +11,7 @@ public class GameHandler : MonoBehaviour
     MoveCameraAroundObject moveCameraAroundObject;
 
     public bool _gameHasBeenStarted = false;
+    public bool _startingCamera = true;
     public bool _letPlayersChoosePieces = false;
     public bool _whiteIsChecked = false;
     public bool _blackIsChecked = false;

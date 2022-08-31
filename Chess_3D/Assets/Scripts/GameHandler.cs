@@ -142,7 +142,6 @@ public class GameHandler : MonoBehaviour
         }
         else if(_currentGOSelection != null)
         {
-            Debug.Log("Deselected: " + _currentGOSelection.name);
             CleanTiles();
             CleanChessPieces();
 
@@ -515,13 +514,8 @@ public class GameHandler : MonoBehaviour
         for(int i = 0; i < howManyPieces; i++)
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
-            Debug.Log("Checking Moves for " + currentPiece);
             currentPiece.GetComponent<PieceInfo>().HandleIfCanDoMoves();
-            Debug.Log(currentPiece + "'s state for _canDoMoves: " + currentPiece.GetComponent<PieceInfo>()._canDoMoves);
         }
-
-        Debug.Log(_possibleWhitePiecesMoves);
-        Debug.Log(_possibleBlackPiecesMoves);
     }
 
     public void CheckIfAnyPiecesAreDefendingTheirKings()
@@ -621,15 +615,6 @@ public class GameHandler : MonoBehaviour
         {
             if(_amountOfWhitePiecesCheckingBlackKing == 1)
             {
-                for(int i = 0; i < _whitePiecesCheckingBlackKing.Count; i++)
-                {
-                    Debug.Log("[" + i + "] = " + _whitePiecesCheckingBlackKing[i] + "/ x = " +
-                    _whitePiecesCheckingBlackKing[i].transform.position.x + "/ z = " +
-                    _whitePiecesCheckingBlackKing[i].transform.position.z +
-                    " < WhitePiecesChecking");
-                    //blokujące pola mogą powstać tylko na takich polach gdzie bicie jest wielokrotne od damy, gońca i wieży
-                }
-
                 if(_blockableTilesByBlack.Count != 0)
                 _blockableTilesByBlack.RemoveAt(_blockableTilesByBlack.Count - 1);
 
@@ -645,15 +630,6 @@ public class GameHandler : MonoBehaviour
             
             if(_amountOfBlackPiecesCheckingWhiteKing == 1)
             {
-                for(int i = 0; i < _blackPiecesCheckingWhiteKing.Count; i++)
-                {
-                    Debug.Log("[" + i + "] = " + _blackPiecesCheckingWhiteKing[i] + "/ x = " +
-                    _blackPiecesCheckingWhiteKing[i].transform.position.x + "/ z = " +
-                    _blackPiecesCheckingWhiteKing[i].transform.position.z +
-                    " < BlackPiecesChecking");
-                    //blokujące pola mogą powstać tylko na takich polach gdzie bicie jest wielokrotne od damy, gońca i wieży
-                }
-
                 if(_blockableTilesByWhite.Count != 0)
                 _blockableTilesByWhite.RemoveAt(_blockableTilesByWhite.Count - 1);
 

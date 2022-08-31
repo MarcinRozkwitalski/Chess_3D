@@ -64,11 +64,6 @@ public class ChessPiecesGrid : MonoBehaviour
 
             defaultBlackChessPieces = defaultWhiteChessPieces;
 
-            for(int i = 0; i < defaultWhiteChessPieces.Count; i++) {
-                Debug.Log("[" + i + "] = " + defaultWhiteChessPieces[i] + " < WhiteChessPiece");
-                Debug.Log("[" + i + "] = " + defaultBlackChessPieces[i] + " < BlackChessPiece");
-            }
-
             yield return StartCoroutine(PlaceChessPiecesFromCoordinates((gridCreator._xWidth / 2) - 4, 0, "White", defaultWhiteChessPieces, defaultBlackChessPieces));
             yield return StartCoroutine(PlaceChessPiecesFromCoordinates((gridCreator._xWidth / 2) - 4, gridCreator._zWidth - 1, "Black", defaultWhiteChessPieces, defaultBlackChessPieces));
 

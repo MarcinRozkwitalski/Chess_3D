@@ -68,38 +68,26 @@ public class PieceInfo : MonoBehaviour
                 switch(_typeOfChessPiece)
                 {
                     case 0:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<Pawn>().Movement(_whichSide);
                         break;
 
                     case 1:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<Knight>().Movement();
                         break;
 
                     case 2:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<Bishop>().Movement();
                         break;
 
                     case 3:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<Rook>().Movement();
                         break;
 
                     case 4:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<Queen>().Movement();
                         break;
 
                     case 5:
-                        Debug.Log(_nameOfChessPiece + " selected");
-                        Debug.Log("Current position: [" + gameObject.transform.position.z + ", " + gameObject.transform.position.x + "].");
                         gameObject.GetComponent<King>().Movement();
                         break;
                 }

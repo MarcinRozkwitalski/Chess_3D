@@ -30,6 +30,7 @@ public class PieceInfo : MonoBehaviour
     [SerializeField] public bool _flagForTileGeneration;
 
     protected int x, z;
+    public int new_x, new_z;
 
     MeshRenderer _meshRenderer;
     Color _initialColor;
@@ -56,6 +57,9 @@ public class PieceInfo : MonoBehaviour
 
         _nameOfChessPiece = gameObject.name;
         CheckTypeOfChessPiece(_nameOfChessPiece);
+
+        SetInitialPosition();
+        SetPosition();
     }
 
     void FixedUpdate() {
@@ -205,9 +209,18 @@ public class PieceInfo : MonoBehaviour
         gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
-    public void SetPosition()
+    public void SetInitialPosition()
     {
         x = (int)gameObject.transform.position.x;
         z = (int)gameObject.transform.position.z;
+
+        new_x = x;
+        new_z = z;
+    }
+
+    public void SetPosition()
+    {
+        x = new_x;
+        z = new_z;
     }
 }

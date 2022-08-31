@@ -6,6 +6,12 @@ public class Rook : PieceInfo
 {
     public bool _hasMoved = false;
 
+    new public void SetPosition()
+    {
+        x = gameObject.GetComponent<PieceInfo>().new_x;
+        z = gameObject.GetComponent<PieceInfo>().new_z;
+    }
+
     public void Movement()
     {
         SetPosition();

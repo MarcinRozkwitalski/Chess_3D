@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Queen : PieceInfo
 {
+    new public void SetPosition()
+    {
+        x = gameObject.GetComponent<PieceInfo>().new_x;
+        z = gameObject.GetComponent<PieceInfo>().new_z;
+    }
+    
     public void Movement()
     {
         if(_whichSide == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked)

@@ -15,6 +15,12 @@ public class Pawn : PieceInfo
         initZ = (int)gameObject.transform.position.z;
     }
 
+    new public void SetPosition()
+    {
+        x = gameObject.GetComponent<PieceInfo>().new_x;
+        z = gameObject.GetComponent<PieceInfo>().new_z;
+    }
+
     public void Movement(int _whichSide)
     {
         SetPosition();

@@ -27,6 +27,8 @@ public class GameHandler : MonoBehaviour
     public List<string> _blockableTilesByWhite = new List<string>();
     public List<string> _blockableTilesByBlack = new List<string>();
 
+    public GameObject _lastDestroyedGameObject;
+
     [SerializeField] public int _whosTurnNow = 0; //0 - white, 1 - black
 
     Transform _selection;
@@ -209,6 +211,11 @@ public class GameHandler : MonoBehaviour
 
     public void HandlePieceMovement(Transform selection)
     {
+        StopCoroutine("MovePieceAnimation");
+
+        int new_x = 0;
+        int new_z = 0;
+
         GameObject tempCurrentGOSelection = _currentGOSelection;
         PieceInfo tempCurrentGoSelectionPieceInfo = _currentGOSelectionPieceInfo;
         int z = (int)_currentGOSelection.transform.position.z;
@@ -216,11 +223,20 @@ public class GameHandler : MonoBehaviour
         _currentGOSelection = null;
         _currentGOSelectionPieceInfo = null;
 
-        int new_z = (int)selection.transform.position.z;
-        int new_x = (int)selection.transform.position.x;
-
+        if(selection.GetComponent<PieceInfo>())
+        {
+            new_x = selection.GetComponent<PieceInfo>().new_x;
+            new_z = selection.GetComponent<PieceInfo>().new_z;
+        }
+        else if(selection.GetComponent<TileInfo>())
+        {
+            new_z = (int)selection.transform.position.z;
+            new_x = (int)selection.transform.position.x;
+        }
+        
         if(selection.GetComponent<Renderer>().material.color == Color.red && chessPiecesGrid.chessPiecesGrid[new_x, new_z] != null)
         {
+            _lastDestroyedGameObject = chessPiecesGrid.chessPiecesGrid[new_x, new_z];
             Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z]);
         }
 
@@ -299,17 +315,26 @@ public class GameHandler : MonoBehaviour
         {
             if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 0)
             {
+                _lastDestroyedGameObject = chessPiecesGrid.chessPiecesGrid[new_x, new_z];
                 Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z - 1]);
             }
             else if(tempCurrentGOSelection.GetComponent<PieceInfo>()._whichSide == 1)
             {
+                _lastDestroyedGameObject = chessPiecesGrid.chessPiecesGrid[new_x, new_z];
                 Destroy(chessPiecesGrid.chessPiecesGrid[new_x, new_z + 1]);
             }
         }
 
+        new_z = (int)selection.transform.position.z;
+        new_x = (int)selection.transform.position.x;
+
         chessPiecesGrid.chessPiecesGrid[x, z] = null;
         chessPiecesGrid.chessPiecesGrid[new_x, new_z] = tempCurrentGOSelection;
-        tempCurrentGOSelection.transform.position = tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z);
+        
+        tempCurrentGOSelection.GetComponent<PieceInfo>().new_x = new_x;
+        tempCurrentGOSelection.GetComponent<PieceInfo>().new_z = new_z;
+        StartCoroutine(MovePieceAnimation(tempCurrentGOSelection, tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z), 0.5f));
+        // tempCurrentGOSelection.transform.position = tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z);
 
         new_z = (int)tempCurrentGOSelection.transform.position.z;
         new_x = (int)tempCurrentGOSelection.transform.position.x;
@@ -317,6 +342,7 @@ public class GameHandler : MonoBehaviour
         if(tempCurrentGOSelection.CompareTag("White")){
             if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == gridCreator._zWidth - 1)
             {
+                _lastDestroyedGameObject = tempCurrentGOSelection;
                 Destroy(tempCurrentGOSelection);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.WhiteQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z].transform.parent = chessPiecesGrid.transform;
@@ -328,6 +354,7 @@ public class GameHandler : MonoBehaviour
         {
             if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == 0)
             {
+                _lastDestroyedGameObject = tempCurrentGOSelection;
                 Destroy(tempCurrentGOSelection);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z] = Instantiate(chessPiecesGrid.BlackQueenPrefab, new Vector3(new_x * gridCreator._gridSpaceSize, chessPiecesGrid._chessPieceYpos, new_z * gridCreator._gridSpaceSize), Quaternion.identity);
                 chessPiecesGrid.chessPiecesGrid[new_x, new_z].transform.parent = chessPiecesGrid.transform;
@@ -455,10 +482,12 @@ public class GameHandler : MonoBehaviour
 
     public void ResetBeatableTiles()
     {
+        int count = 0;
         for(int x = 0; x < gridCreator._xWidth; x++)
         {
             for(int z = 0; z < gridCreator._zWidth; z++)
             {
+                count++;
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffWhite();
                 gridCreator.chessBoardGrid[x, z].gameObject.GetComponent<TileInfo>().SetOffBlack();
             }
@@ -472,6 +501,7 @@ public class GameHandler : MonoBehaviour
         for(int i = 0; i < howManyPieces; i++)
         {
             GameObject currentPiece = chessPiecesGrid.gameObject.transform.GetChild(i).gameObject;
+            if(currentPiece != _lastDestroyedGameObject)
             currentPiece.GetComponent<PieceInfo>().HandleBeatableTiles();
         }
     }
@@ -728,6 +758,32 @@ public class GameHandler : MonoBehaviour
         if(_whiteIsChecked || _blackIsChecked)
         {
             
+        }
+    }
+
+    IEnumerator MovePieceAnimation(GameObject pieceToMove, Vector3 newPosition, float duration)
+    {
+        if(pieceToMove != null)
+        {
+            float time = 0;
+            Vector3 startingPosition = pieceToMove.transform.position;
+
+            while(time < duration)
+            {
+                if(pieceToMove != null)
+                {
+                    pieceToMove.transform.position = Vector3.Lerp(startingPosition, newPosition, time / duration);
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+                else
+                break;
+            }
+
+            if(pieceToMove != null)
+            pieceToMove.transform.position = newPosition;
+
+            StopCoroutine("MovePieceAnimation");
         }
     }
 }

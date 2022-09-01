@@ -5,6 +5,7 @@ using UnityEngine;
 public class AdjustPlaneToGrid : MonoBehaviour
 {
     GridCreator gridCreator;
+    
     Vector3 _newTransform;
 
     void Start()

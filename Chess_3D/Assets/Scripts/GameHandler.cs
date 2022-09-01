@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
@@ -37,14 +38,16 @@ public class GameHandler : MonoBehaviour
     public PieceInfo _currentGOSelectionPieceInfo = null;
     public int _lastWhichSide;
 
-    Text GameInfoText;
+    TMP_Text GameInfoText;
+    
+    [SerializeField] public GameObject EndPanel;
 
     private void Start() 
     {
         gridCreator = GameObject.Find("TileGrid").GetComponent<GridCreator>();
         chessPiecesGrid = GameObject.Find("ChessPiecesGrid").GetComponent<ChessPiecesGrid>();
         adjustPlaneToGrid = GameObject.Find("Plane").GetComponent<AdjustPlaneToGrid>();
-        GameInfoText = GameObject.Find("GameInfoText").GetComponent<Text>();
+        GameInfoText = GameObject.Find("GameInfoText").GetComponent<TMP_Text>();
         moveCameraAroundObject = GameObject.Find("Main Camera").GetComponent<MoveCameraAroundObject>();
 
         adjustPlaneToGrid.StartAnimation();
@@ -695,6 +698,7 @@ public class GameHandler : MonoBehaviour
         if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == true)
         {
             Debug.Log("Black wins!");
+            GameInfoText.text = "Black wins!";
             _gameHasBeenStarted = false;
             Vector3 targetObjectNextPosition = GameObject.Find("BlackKing(Clone)").transform.position;
             moveCameraAroundObject.targetObjectNextPosition = targetObjectNextPosition;
@@ -708,6 +712,7 @@ public class GameHandler : MonoBehaviour
         else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == true)
         {
             Debug.Log("White wins!");
+            GameInfoText.text = "White wins!";
             _gameHasBeenStarted = false;
             Vector3 targetObjectNextPosition = GameObject.Find("WhiteKing(Clone)").transform.position;
             moveCameraAroundObject.targetObjectNextPosition = targetObjectNextPosition;
@@ -721,11 +726,13 @@ public class GameHandler : MonoBehaviour
         else if(_possibleWhitePiecesMoves == 0 && GameObject.Find("WhiteKing(Clone)").GetComponent<King>()._isChecked == false)
         {
             Debug.Log("Stalemate!");
+            GameInfoText.text = "Stalemate!";
             _gameHasBeenStarted = false;
         }
         else if(_possibleBlackPiecesMoves == 0 && GameObject.Find("BlackKing(Clone)").GetComponent<King>()._isChecked == false)
         {
             Debug.Log("Stalemate!");
+            GameInfoText.text = "Stalemate!";
             _gameHasBeenStarted = false;
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MoveCameraAroundObject : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class MoveCameraAroundObject : MonoBehaviour
     [SerializeField] public Transform _target;
 
     [SerializeField] private float _distanceFromTarget = 8.0f;
+
+    [SerializeField] private TMP_Text _blinkingText;
 
     void Start() 
     {
@@ -117,8 +120,19 @@ public class MoveCameraAroundObject : MonoBehaviour
                 }
                 else
                 {
+                    if(_blinkingText != null)
+                    {
+                        _blinkingText.gameObject.SetActive(true);
+                    }
+
                     transform.LookAt(_target);
                     transform.Translate(Vector3.right * 2f * Time.deltaTime);
+
+                    if(Input.anyKey)
+                    {
+                        _blinkingText.GetComponent<TextBlink>()._destroyThis = true;
+                        gameHandler.EndPanel.gameObject.SetActive(true);
+                    }
                 }
             }
         }

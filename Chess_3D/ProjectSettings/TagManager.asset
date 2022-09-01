@@ -8,6 +8,8 @@ TagManager:
   - Black
   - WhiteTile
   - BlackTile
+  - SceneChanger
+  - ButtonManager
   layers:
   - Default
   - TransparentFX

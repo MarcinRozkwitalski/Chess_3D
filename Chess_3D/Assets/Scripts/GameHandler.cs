@@ -340,9 +340,6 @@ public class GameHandler : MonoBehaviour
         StartCoroutine(MovePieceAnimation(tempCurrentGOSelection, tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z), 0.5f));
         // tempCurrentGOSelection.transform.position = tempCurrentGOSelection.transform.position + new Vector3(new_x - x, 0f, new_z - z);
 
-        new_z = (int)tempCurrentGOSelection.transform.position.z;
-        new_x = (int)tempCurrentGOSelection.transform.position.x;
-
         if(tempCurrentGOSelection.CompareTag("White")){
             if(tempCurrentGOSelection.GetComponent<Pawn>() && new_z == gridCreator._zWidth - 1)
             {

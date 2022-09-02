@@ -375,6 +375,9 @@ public class GameHandler : MonoBehaviour
             }
         }
 
+        new_z = (int)selection.transform.position.z;
+        new_x = (int)selection.transform.position.x;
+
         if(tempCurrentGOSelection.GetComponent<King>())
         {
             int xToAdd = tempCurrentGOSelection.GetComponent<King>().initX;
@@ -386,15 +389,17 @@ public class GameHandler : MonoBehaviour
                 if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX - 2)
                 {
                     chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[0, 0];
+                    GameObject rookToMove = chessPiecesGrid.chessPiecesGrid[0, 0];
                     chessPiecesGrid.chessPiecesGrid[0, 0] = null;
-                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position + new Vector3(3, 0f, 0);
+                    StartCoroutine(MovePieceAnimation(rookToMove, rookToMove.transform.position + new Vector3(3f, 0f, 0f), 0.5f));
                     chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
                 }
                 else if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX + 2)
                 {
                     chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[7, 0];
+                    GameObject rookToMove = chessPiecesGrid.chessPiecesGrid[7, 0];
                     chessPiecesGrid.chessPiecesGrid[7, 0] = null;
-                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position + new Vector3(-2, 0f, 0);
+                    StartCoroutine(MovePieceAnimation(rookToMove, rookToMove.transform.position + new Vector3(-2f, 0f, 0f), 0.5f));
                     chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
                 }
             }
@@ -404,15 +409,17 @@ public class GameHandler : MonoBehaviour
                 if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX - 2)
                 {
                     chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[0, 7];
+                    GameObject rookToMove = chessPiecesGrid.chessPiecesGrid[0, 7];
                     chessPiecesGrid.chessPiecesGrid[0, 7] = null;
-                    chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.transform.position + new Vector3(3, 0f, 0);
+                    StartCoroutine(MovePieceAnimation(rookToMove, rookToMove.transform.position + new Vector3(3f, 0f, 0f), 0.5f));
                     chessPiecesGrid.chessPiecesGrid[xToAdd - 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
                 }
                 else if(new_z == tempCurrentGOSelection.GetComponent<King>().initZ && new_x == tempCurrentGOSelection.GetComponent<King>().initX + 2)
                 {
                     chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd] = chessPiecesGrid.chessPiecesGrid[7, 7];
+                    GameObject rookToMove = chessPiecesGrid.chessPiecesGrid[7, 7];
                     chessPiecesGrid.chessPiecesGrid[7, 7] = null;
-                    chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position = chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.transform.position + new Vector3(-2, 0f, 0);
+                    StartCoroutine(MovePieceAnimation(rookToMove, rookToMove.transform.position + new Vector3(-2f, 0f, 0f), 0.5f));
                     chessPiecesGrid.chessPiecesGrid[xToAdd + 1, zToAdd].gameObject.GetComponent<Rook>()._hasMoved = true;
                 }
             }
